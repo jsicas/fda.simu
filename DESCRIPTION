@@ -1,0 +1,17 @@
+Package: fda.simu
+Title: Utilitários Para Simulação E Análise De Dados Funcionais
+Version: 0.0.0.9000
+Authors@R:
+    person('João Victor', 'Rodrigues', , 'j236153@dac.unicamp.br',
+           role = c('aut', 'cre'), comment = c(ORCID = '0009-0007-9732-5619'))
+Description:
+  Este pacote contêm funções úteis para efetuar simualções no contexto da análise
+  de dados funcionais com representação via ondaletas. Além disso, admite trabalhar
+  com Regras Bayesianas de Shrinkage.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+LazyData: true
+Imports:
+  wavethresh
