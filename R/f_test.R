@@ -1,14 +1,23 @@
 #' @title Funções para Teste
+#'
 #' @export
+#'
+#' @usage f_test(n=1024, signal=7, snr=7, noise=FALSE)
 #'
 #' @param n números de pontos considerados da função.
 #' @param signal desvio padrão da função verdadeira.
 #' @param snr razão sinal-ruído.
 #' @param noise indica se os pontos gerados devem apresentar um ruido gaussiano.
 #'
+#' @details
+#' Todas as funções são normalizadas para apresentarem o mesmo desvio padrão
+#' \code{signal}, cujo default é \eqn{7}.
+#'
+#' @returns Retorna uma lista com \code{n} pontos de cada função.
+#'
 #' @references
 #' Donoho, D.L. and Johnstone, I.M. (1994), Ideal spatial adaptation by wavelet
-#' shrinkage. \enph{Biometrika}, 81, 425–455.
+#' shrinkage. \emph{Biometrika}, 81, 425–455.
 #'
 #' Sousa, A.R.S. (2020). Bayesian wavelet shrinkage with logistic prior.
 #' \emph{Communications in Statistics - Simulation and Computation}.

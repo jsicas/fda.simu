@@ -1,12 +1,16 @@
 #' @title Regra de Encolhimento Bayesiana com Priori Logística
+#'
 #' @export
 #'
 #' @usage logis_shrink(d, a, s, t)
 #'
-#' @param d coeficiente de ondaleta empírico.
+#' @param d vetor de coeficientes de ondaleta empírico.
 #' @param a parâmetro \eqn{\alpha} da mistura.
 #' @param s desvio padrão dos coeficientes de ondaleta.
 #' @param t parâmetro \eqn{\tau} da logística.
+#'
+#' @returns Retorna um vetor de mesmo tamanho inicial com os coeficientes de
+#' ondaleta estimados.
 #'
 #' @details
 #' Seja \eqn{\theta} uma variável aleatória com distribuição logística, então,

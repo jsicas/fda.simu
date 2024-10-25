@@ -4,7 +4,7 @@
 \alias{f_test}
 \title{Funções para Teste}
 \usage{
-f_test(n = 1024, signal = 7, snr = 7, noise = FALSE)
+f_test(n=1024, signal=7, snr=7, noise=FALSE)
 }
 \arguments{
 \item{n}{números de pontos considerados da função.}
@@ -15,12 +15,19 @@ f_test(n = 1024, signal = 7, snr = 7, noise = FALSE)
 
 \item{noise}{indica se os pontos gerados devem apresentar um ruido gaussiano.}
 }
+\value{
+Retorna uma lista com \code{n} pontos de cada função.
+}
 \description{
 Funções para Teste
 }
+\details{
+Todas as funções são normalizadas para apresentarem o mesmo desvio padrão
+\code{signal}, cujo default é \eqn{7}.
+}
 \references{
 Donoho, D.L. and Johnstone, I.M. (1994), Ideal spatial adaptation by wavelet
-shrinkage. \enph{Biometrika}, 81, 425–455.
+shrinkage. \emph{Biometrika}, 81, 425–455.
 
 Sousa, A.R.S. (2020). Bayesian wavelet shrinkage with logistic prior.
 \emph{Communications in Statistics - Simulation and Computation}.

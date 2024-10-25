@@ -7,13 +7,17 @@
 logis_shrink(d, a, s, t)
 }
 \arguments{
-\item{d}{coeficiente de ondaleta empírico.}
+\item{d}{vetor de coeficientes de ondaleta empírico.}
 
 \item{a}{parâmetro \eqn{\alpha} da mistura.}
 
 \item{s}{desvio padrão dos coeficientes de ondaleta.}
 
 \item{t}{parâmetro \eqn{\tau} da logística.}
+}
+\value{
+Retorna um vetor de mesmo tamanho inicial com os coeficientes de
+ondaleta estimados.
 }
 \description{
 Regra de Encolhimento Bayesiana com Priori Logística
