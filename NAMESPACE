@@ -3,6 +3,8 @@
 export(disaggregate)
 export(f_test)
 export(logis_shrink)
+export(logis_shrink_parallel)
+importFrom(furrr,future_map)
 importFrom(wavethresh,GenW)
 importFrom(wavethresh,threshold)
 importFrom(wavethresh,wd)

@@ -53,8 +53,9 @@ logis_shrink <- function(d, a, s, t) {
   u <- rnorm(10000)
   delta <- vector(length(d), mode='double')
   for(i in 1:length(d)) {
-    int1 <- mean((s*u + d[i]) * dlogis(s*u + d[i], scale=t))
-    int2 <- mean(dlogis(s*u + d[i], scale=t))
+    logis <- dlogis(s*u + d[i], scale=t)
+    int1 <- mean((s*u + d[i]) * logis)
+    int2 <- mean(logis)
     delta[i] <- (1-a) * int1/(a * dnorm(d[i], sd=s)/s + (1-a) * int2)
   }
   return(delta)
