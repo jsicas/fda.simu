@@ -28,7 +28,4 @@ Todas as funções são normalizadas para apresentarem o mesmo desvio padrão
 \references{
 Donoho, D.L. and Johnstone, I.M. (1994), Ideal spatial adaptation by wavelet
 shrinkage. \emph{Biometrika}, 81, 425–455.
-
-Sousa, A.R.S. (2020). Bayesian wavelet shrinkage with logistic prior.
-\emph{Communications in Statistics - Simulation and Computation}.
 }

@@ -1,26 +1,28 @@
-#' @title Desagregador de Dados Funcionais
+#' @title Desagregador Dados Funcionais
 #'
 #' @export
 #'
 #' @importFrom wavethresh wd
 #' @importFrom wavethresh GenW
+#' @importFrom wavethresh accessC
 #' @importFrom wavethresh threshold
 #'
-#' @usage disaggregate(data, y, policy='sure', filter.number=10, family='DaubExPhase')
+#' @usage desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase')
 #'
 #' @param data observações do funcional agregado.
 #' @param y matriz com os pesos conhecidos de cada funcional.
 #' @param policy política para escolha de limiar. Alguns possíveis valores são
 #' "sure", "universal", "cv", "fdr" etc. Para maide detalhes, ver
-#' \link[wavethresh]{threshold.wd}.
+#' \code{\link[wavethresh]{threshold.wd}}.
 #' @param filter.number controla a suavidade da ondaleta.
 #' @param family Especifíca a família da ondaleta, e.g. "DaubExPhase", "DaubLeAsymm".
 #'
 #' @returns Retorna uma matriz com a função recuperar no domínio do tempo.
 #'
 #' @references
-#' Sousa, A.R.S. (2020). Bayesian wavelet shrinkage with logistic prior.
-#' \emph{Communications in Statistics - Simulation and Computation}.
+#' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
+#' analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
+#' [https://doi.org/10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016)
 #'
 #' @examples
 #' set.seed(282829)
@@ -38,7 +40,7 @@
 #' for (i in 1:10) sample[i,] <- y1[i]*bumps + y2[i]*f_test()$doppler + rnorm(1024, 0, 7/5)
 #'
 #' # recuperando funções
-#' fun_recup <- disaggregate(sample, y)
+#' fun_recup <- desagrega(sample, y)
 #'
 #' # gráficos
 #' par(mar=c(3, 4, 2, 2)); layout(matrix(c(1,1,2,3), 2, byrow=T))
@@ -51,7 +53,7 @@
 #' legend('bottomright', lwd=2, bty='n', cex=0.85,
 #'        legend=c('Função Verdadeira', 'Função Recuperada'), col=c('black', 'blue'))
 
-disaggregate <- function(data, y, policy='sure', filter.number=10, family='DaubExPhase') {
+desagrega <- function(data, y, policy='sure', filter.number=10, family='DaubExPhase') {
   D <- apply(data, MARGIN=1, wd, filter.number, family)  # coeficientes empiricos
   D_shrink <- sapply(D, function(x = threshold(D, policy=policy)) c(accessC(x, lev=0), x$D))
   gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))  # coeficientes de ondaletas estimados

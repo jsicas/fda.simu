@@ -18,9 +18,6 @@
 #' @references
 #' Donoho, D.L. and Johnstone, I.M. (1994), Ideal spatial adaptation by wavelet
 #' shrinkage. \emph{Biometrika}, 81, 425–455.
-#'
-#' Sousa, A.R.S. (2020). Bayesian wavelet shrinkage with logistic prior.
-#' \emph{Communications in Statistics - Simulation and Computation}.
 
 f_test <- function(n=1024, signal=7, snr=7, noise=FALSE)
 {
