@@ -16,7 +16,9 @@ função.}
 
 \item{snr}{razão sinal-ruído.}
 
-\item{policy}{política de escolha de limiar.}
+\item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
+"universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
+\code{\link[wavethresh]{threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
 }
@@ -44,5 +46,5 @@ simu(funcoes_comp, rep=4, n=10, snr=5)
 \references{
 Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-\url{https://doi.org/10.1515/mcma-2023-2016}
+\url{https://doi.org/10.1515/mcma-2023-2016}.
 }

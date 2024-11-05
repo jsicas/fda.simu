@@ -10,8 +10,7 @@
 #' @param rep quantidade de replicações da simulação.
 #' @param n tamanho da amostra gerada.
 #' @param snr razão sinal-ruído.
-#' @param policy política de escolha de limiar.
-#' @param filter.number controla a suavidade da ondaleta.
+#' @inheritParams desagrega
 #'
 #' @returns Retorna um objeto da classe `data.frame` com o cálculo do MSE de cada
 #' função e o AMSE.
@@ -24,7 +23,7 @@
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 #' analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-#' [https://doi.org/10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016)
+#' [https://doi.org/10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
 #'
 #' @examples
 #' bumps <- f_test()$bumps
@@ -54,5 +53,5 @@ simu <- function(fun_comp, rep, n=10, snr, policy='sure', filter.number=10) {
     AMSE <- (MSE_1 + MSE_2) / 2
     data.frame('MSE_1'=MSE_1, 'MSE_2'=MSE_2, 'AMSE'=AMSE)
   }, .options=furrr_options(seed=TRUE), .progress=T) |>
-    do.call(rbind, args = _)
+    do.call(rbind, args=_)
 }

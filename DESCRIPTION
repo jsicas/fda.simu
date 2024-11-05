@@ -1,9 +1,9 @@
 Package: fda.simu
 Title: Utilitários Para Simulação E Análise De Dados Funcionais
-Version: 0.0.0.9000
+Version: 0.0.1.0000
 Authors@R:
-    person('João Victor', 'Rodrigues', , 'j236153@dac.unicamp.br',
-           role = c('aut', 'cre'), comment = c(ORCID = '0009-0007-9732-5619'))
+  person('João Victor', 'Rodrigues', , 'j236153@dac.unicamp.br',
+         role = c('aut', 'cre'), comment = c(ORCID = '0009-0007-9732-5619'))
 Description:
   Este pacote contêm funções úteis para efetuar simualções no contexto da análise
   de dados funcionais com representação via ondaletas. Além disso, admite trabalhar
@@ -14,4 +14,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 LazyData: true
 Imports:
-  wavethresh
+  wavethresh,
+  furrr
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

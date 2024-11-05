@@ -7,22 +7,25 @@
 #' @importFrom wavethresh accessC
 #' @importFrom wavethresh threshold
 #'
-#' @usage desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase')
+#' @usage
+#' desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase',
+#'           a=0.8, s=1, t=1)
 #'
 #' @param data observações do funcional agregado.
 #' @param y matriz com os pesos conhecidos de cada funcional.
-#' @param policy política para escolha de limiar. Alguns possíveis valores são
-#' "sure", "universal", "cv", "fdr" etc. Para maide detalhes, ver
+#' @param policy política para escolha de limiar. Os possíveis valores são "sure",
+#' "universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
 #' \code{\link[wavethresh]{threshold.wd}}.
 #' @param filter.number controla a suavidade da ondaleta.
 #' @param family Especifíca a família da ondaleta, e.g. "DaubExPhase", "DaubLeAsymm".
+#' @inheritParams logis_shrink
 #'
 #' @returns Retorna uma matriz com a função recuperar no domínio do tempo.
 #'
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 #' analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-#' [https://doi.org/10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016)
+#' [https://doi.org/10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
 #'
 #' @examples
 #' set.seed(282829)
@@ -53,9 +56,18 @@
 #' legend('bottomright', lwd=2, bty='n', cex=0.85,
 #'        legend=c('Função Verdadeira', 'Função Recuperada'), col=c('black', 'blue'))
 
-desagrega <- function(data, y, policy='sure', filter.number=10, family='DaubExPhase') {
+desagrega <- function(data, y, policy='sure', filter.number=10, family='DaubExPhase',
+                      a=0.8, s=1, t=1) {
   D <- apply(data, MARGIN=1, wd, filter.number, family)  # coeficientes empiricos
-  D_shrink <- sapply(D, function(x = threshold(D, policy=policy)) c(accessC(x, lev=0), x$D))
+  if (policy %in% c('universal', 'sure', 'cv', 'fdr')) {
+    D_shrink <- sapply(D, function(x = threshold(D, policy=policy)) c(accessC(x, lev=0), x$D))
+  } else if (policy == 'logistica') {
+    D_shrink <- sapply(D, function(x = D) c(accessC(x, lev=0), logis_shrink(x$D,a,s,t)))
+  } else if (policy == 'epanechnikov') {
+
+  } else {
+    stop('Politica de limiar mal especificada.')
+  }
   gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))  # coeficientes de ondaletas estimados
   alpha <- do.call(GenW, list(n=ncol(data), filter.number,
                               family)) %*% gamma    # funções recuperadas

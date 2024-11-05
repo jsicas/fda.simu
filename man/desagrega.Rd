@@ -4,20 +4,27 @@
 \alias{desagrega}
 \title{Desagregador Dados Funcionais}
 \usage{
-desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase')
+desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase',
+          a=0.8, s=1, t=1)
 }
 \arguments{
 \item{data}{observações do funcional agregado.}
 
 \item{y}{matriz com os pesos conhecidos de cada funcional.}
 
-\item{policy}{política para escolha de limiar. Alguns possíveis valores são
-"sure", "universal", "cv", "fdr" etc. Para maide detalhes, ver
+\item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
+"universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
 \code{\link[wavethresh]{threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
 
 \item{family}{Especifíca a família da ondaleta, e.g. "DaubExPhase", "DaubLeAsymm".}
+
+\item{a}{parâmetro \eqn{\alpha} da mistura.}
+
+\item{s}{desvio padrão dos coeficientes de ondaleta.}
+
+\item{t}{parâmetro \eqn{\tau} da logística.}
 }
 \value{
 Retorna uma matriz com a função recuperar no domínio do tempo.
@@ -57,5 +64,5 @@ legend('bottomright', lwd=2, bty='n', cex=0.85,
 \references{
 Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-\url{https://doi.org/10.1515/mcma-2023-2016}
+\url{https://doi.org/10.1515/mcma-2023-2016}.
 }
