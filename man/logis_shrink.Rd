@@ -58,5 +58,5 @@ for (i in 1:length(t)) {
 \references{
 Sousa, A.R.S. (2020). Bayesian wavelet shrinkage with logistic prior.
 \emph{Communications in Statistics - Simulation and Computation}, 51(8),
-4700–4714. \url{https://doi.org/10.1080/03610918.2020.1747076}.
+4700–4714. \href{https://doi.org/10.1080/03610918.2020.1747076}{doi:10.1080/03610918.2020.1747076}.
 }
