@@ -47,8 +47,10 @@
 epanec_shrink <- function(d, a, b, lambda) {
   exp1 <- (2*lambda*b^2 + 3*b*sqrt(2*lambda) + 3)/(2*lambda^2) *
     (exp(-(b-d)*sqrt(2*lambda)) - exp(-(b+d)*sqrt(2*lambda)))
-  exp2 <- b * (exp(-(b+d)*sqrt(2*lambda)) + exp(-(b-d)*sqrt(2*lambda)))/lambda
-  den <- (1 - a) * 3 * sqrt(2*lambda)/(8 * b^3) * (exp1 + ........../lambda^2)
-  num <-
-  return(den/num)
+  exp2 <- b/lambda * (exp(-(b+d)*sqrt(2*lambda)) + exp(-(b-d)*sqrt(2*lambda)))
+  num <- (1 - a) * 3 * sqrt(2*lambda)/(8 * b^3) * (exp1 +
+    ((lambda*b^2-3)*sqrt(2*lambda)*d - lambda*sqrt(2*lambda)*d^3)/lambda^2)
+  den <- a * ddexp(d, 0, 1/sqrt(2*lambda)) + (1-a) * 3*sqrt(2*lambda)/(8*b^3) *
+    (exp2 + 2/sqrt(2*lambda) * (b^2 - d^2 - 1/lambda))
+  return(num/den)
 }
