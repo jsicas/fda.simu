@@ -44,6 +44,11 @@
 #' @examples
 #' NULL
 
-epanec_shrink <- function(d, a) {
-
+epanec_shrink <- function(d, a, b, lambda) {
+  exp1 <- (2*lambda*b^2 + 3*b*sqrt(2*lambda) + 3)/(2*lambda^2) *
+    (exp(-(b-d)*sqrt(2*lambda)) - exp(-(b+d)*sqrt(2*lambda)))
+  exp2 <- b * (exp(-(b+d)*sqrt(2*lambda)) + exp(-(b-d)*sqrt(2*lambda)))/lambda
+  den <- (1 - a) * 3 * sqrt(2*lambda)/(8 * b^3) * (exp1 + ........../lambda^2)
+  num <-
+  return(den/num)
 }
