@@ -4,15 +4,19 @@
 #'
 #' @importFrom furrr future_map
 #' @importFrom furrr furrr_options
+#' @importFrom future nbrOfWorkers
 #'
-#' @param fun_comp objeto com as \eqn{l} funções componentes. Cada linha é uma
+#' @usage
+#' simu(fun_comp, rep, n=10, snr, policy='sure', filter.number=10)
+#'
+#' @param fun_comp objeto com as \eqn{L} funções componentes. Cada linha é uma
 #' função.
 #' @param rep quantidade de replicações da simulação.
 #' @param n tamanho da amostra gerada.
 #' @param snr razão sinal-ruído.
 #' @inheritParams desagrega
 #'
-#' @returns Retorna um objeto da classe `data.frame` com o cálculo do MSE de cada
+#' @returns Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada
 #' função e o AMSE.
 #'
 #' @details
@@ -23,7 +27,7 @@
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 #' analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-#' [doi: 10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
+#' [doi:10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
 #'
 #' @examples
 #' bumps <- f_test()$bumps
@@ -31,18 +35,18 @@
 #' par(mfrow=c(2,1))
 #' plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
 #'
-#' funcoes_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
-#' simu(funcoes_comp, rep=4, n=10, snr=5)
+#' # plan(multisession, workers=3)  # paralelizando execução
+#' fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
+#' simu(fun_comp, rep=4, n=10, snr=5)
 
-simu <- function(fun_comp, rep, n=10, snr, policy='sure', filter.number=10) {
+simu <- function(fun_comp, rep, n=10, snr, policy='sure', filter.number=10, signal=7) {
+  if(nbrOfWorkers() == 1) warning('Simulação não está sendo paralelizada.')
+  # fun_comp <- apply(fun_comp, margin, ...) # fazzer a função ter sd = 7
   future_map(1:rep, ~{
     # gerando amostra
-    y1 <- runif(n)  # pesos da curva 1
-    y2 <- 1 - y1    # pesos da curva 2
-    y <- matrix(c(y1, y2), nrow=2, byrow=T)
-    fun_agr <- matrix(0, n, ncol(fun_comp))  # pre-alocando memoria
-    for (i in 1:n) fun_agr[i,] <- y1[i]*fun_comp[1,] + y2[i]*fun_comp[2,] +
-      rnorm(ncol(fun_comp), 0, 7/snr)
+    L <- nrow(fun_comp)  # número de curvas componentes
+    y <- apply(matrix(runif(L*n), nrow=L), 2, function(col) col/sum(col))  # soma dos pesos igual a 1
+    fun_agr <- t(y) %*% fun_comp + rnorm(n*ncol(fun_comp), 0, 7/snr)
 
     # wavelets
     alpha <- desagrega(fun_agr, y, policy=policy, filter.number=filter.number)

@@ -62,13 +62,13 @@ f_test <- function(n=1024, signal=7, snr=7, noise=FALSE)
   example[i3] <- (x[i3] * (16 * x[i3]^2 - 32 * x[i3] + 16))/3
 
   # padronizando
-  bumps <- bumps/sqrt(var(bumps)) * signal
-  blocks <- blocks/sqrt(var(blocks)) * signal
-  doppler <- doppler/sqrt(var(doppler)) * signal
-  heavisine <- heavisine/sqrt(var(heavisine)) * signal
-  logit <- logit/sqrt(var(logit)) * signal
-  spahet <- spahet/sqrt(var(spahet)) * signal
-  example <- example/sqrt(var(example)) * signal
+  bumps <- bumps/sd(bumps) * signal
+  blocks <- blocks/sd(blocks) * signal
+  doppler <- doppler/sd(doppler) * signal
+  heavisine <- heavisine/sd(heavisine) * signal
+  logit <- logit/sd(logit) * signal
+  spahet <- spahet/sd(spahet) * signal
+  example <- example/sd(example) * signal
 
   # noise
   if (noise == TRUE) {

@@ -4,10 +4,10 @@
 \alias{simu}
 \title{Simulação para Política de Limiar}
 \usage{
-simu(fun_comp, rep, n = 10, snr, policy = "sure", filter.number = 10)
+simu(fun_comp, rep, n=10, snr, policy='sure', filter.number=10)
 }
 \arguments{
-\item{fun_comp}{objeto com as \eqn{l} funções componentes. Cada linha é uma
+\item{fun_comp}{objeto com as \eqn{L} funções componentes. Cada linha é uma
 função.}
 
 \item{rep}{quantidade de replicações da simulação.}
@@ -18,7 +18,7 @@ função.}
 
 \item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
 "universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
-\code{\link[wavethresh]{threshold.wd}}.}
+\code{\link[wavethresh]{wavethresh::threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
 }
@@ -40,11 +40,12 @@ doppler <- f_test()$doppler
 par(mfrow=c(2,1))
 plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
 
-funcoes_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
-simu(funcoes_comp, rep=4, n=10, snr=5)
+# plan(multisession, workers=3)  # paralelizando execução
+fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
+simu(fun_comp, rep=4, n=10, snr=5)
 }
 \references{
 Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-\href{https://doi.org/10.1515/mcma-2023-2016}{doi: 10.1515/mcma-2023-2016}.
+\href{https://doi.org/10.1515/mcma-2023-2016}{doi:10.1515/mcma-2023-2016}.
 }

@@ -4,14 +4,14 @@
 \alias{ddexp}
 \title{Função Densidade de Probabilidade da Exponencial Dupla (Laplace)}
 \usage{
-ddexp(x, mu, lambda)
+ddexp(x, mu, scale)
 }
 \arguments{
 \item{x}{valor a ser avaliado.}
 
 \item{mu}{parâmetro de locação.}
 
-\item{lambda}{parâmetro de escala.}
+\item{scale}{parâmetro de escala.}
 }
 \description{
 Função Densidade de Probabilidade da Exponencial Dupla (Laplace)
@@ -19,5 +19,5 @@ Função Densidade de Probabilidade da Exponencial Dupla (Laplace)
 \details{
 Seja \eqn{X} uma variável aleatória com distribuição de Laplace, então, sua função
 densidade de probabilidade é dada por:
-\deqn{f(x) = \dfrac{\exp\left\{ -\frac{|x-\mu|}{\beta} \right\}}{2\beta}}
+\deqn{f(x) = \dfrac{1}{2\beta} \exp\left\{ -\dfrac{|x-\mu|}{\beta} \right\}}
 }

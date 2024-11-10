@@ -15,7 +15,7 @@
 #' @param y matriz com os pesos conhecidos de cada funcional.
 #' @param policy política para escolha de limiar. Os possíveis valores são "sure",
 #' "universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
-#' \code{\link[wavethresh]{threshold.wd}}.
+#' \code{\link[wavethresh]{wavethresh::threshold.wd}}.
 #' @param filter.number controla a suavidade da ondaleta.
 #' @param family Especifíca a família da ondaleta, e.g. "DaubExPhase", "DaubLeAsymm".
 #' @inheritParams logis_shrink
@@ -25,7 +25,7 @@
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 #' analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-#' [doi: 10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
+#' [doi:10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
 #'
 #' @examples
 #' set.seed(282829)

@@ -14,7 +14,7 @@ desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase',
 
 \item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
 "universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
-\code{\link[wavethresh]{threshold.wd}}.}
+\code{\link[wavethresh]{wavethresh::threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
 
@@ -64,5 +64,5 @@ legend('bottomright', lwd=2, bty='n', cex=0.85,
 \references{
 Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-\href{https://doi.org/10.1515/mcma-2023-2016}{doi: 10.1515/mcma-2023-2016}.
+\href{https://doi.org/10.1515/mcma-2023-2016}{doi:10.1515/mcma-2023-2016}.
 }

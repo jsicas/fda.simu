@@ -1,7 +1,5 @@
 #' @title Regra de Encolhimento Bayesiana com Priori Logística
 #'
-#' @export
-#'
 #' @importFrom purrr map
 #'
 #' @usage logis_shrink_map(d, a, s, t)
