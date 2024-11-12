@@ -11,3 +11,7 @@ test_that('simu: testando duas curvas', {
 # test_that('simu: testando 4 curvas', {
 #   expect_snapshot_value(simu(db_test, 4, snr=5), style='json2')
 # })
+
+# Adicionar testes para:
+#     sample_gen
+#     simu

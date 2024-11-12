@@ -4,17 +4,17 @@
 \alias{simu}
 \title{Simulação para Política de Limiar}
 \usage{
-simu(fun_comp, rep, n=10, snr, policy='sure', filter.number=10)
+simu(fun_comp, snr, rep, n=10, policy='sure', filter.number=10)
 }
 \arguments{
-\item{fun_comp}{objeto com as \eqn{L} funções componentes. Cada linha é uma
+\item{fun_comp}{objeto com as \eqn{L} funções componentes, onde cada linha é uma
 função.}
+
+\item{snr}{razão sinal-ruído.}
 
 \item{rep}{quantidade de replicações da simulação.}
 
 \item{n}{tamanho da amostra gerada.}
-
-\item{snr}{razão sinal-ruído.}
 
 \item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
 "universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
@@ -32,7 +32,8 @@ Simulação para Política de Limiar
 \details{
 A função assume que os dados de entrada tem o desvio padrão 7 para efetuar o
 cálculo da razão sinal-ruído. Além disso, os pesos para cada função são gerados
-aleatóriamente seguindo uma \eqn{\mathcal{U}(0,1)}.
+aleatóriamente seguindo uma \eqn{\mathcal{U}(0,1)} e são modificados de forma
+a garantir que sua soma é \eqn{1}.
 }
 \examples{
 bumps <- f_test()$bumps
@@ -40,7 +41,7 @@ doppler <- f_test()$doppler
 par(mfrow=c(2,1))
 plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
 
-# plan(multisession, workers=3)  # paralelizando execução
+# plan(multisession, workers=2)  # paralelizando execução
 fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
 simu(fun_comp, rep=4, n=10, snr=5)
 }

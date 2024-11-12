@@ -7,13 +7,10 @@
 #' @importFrom future nbrOfWorkers
 #'
 #' @usage
-#' simu(fun_comp, rep, n=10, snr, policy='sure', filter.number=10)
+#' simu(fun_comp, snr, rep, n=10, policy='sure', filter.number=10)
 #'
-#' @param fun_comp objeto com as \eqn{L} funções componentes. Cada linha é uma
-#' função.
 #' @param rep quantidade de replicações da simulação.
-#' @param n tamanho da amostra gerada.
-#' @param snr razão sinal-ruído.
+#' @inheritParams sample_gen
 #' @inheritParams desagrega
 #'
 #' @returns Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada
@@ -22,7 +19,8 @@
 #' @details
 #' A função assume que os dados de entrada tem o desvio padrão 7 para efetuar o
 #' cálculo da razão sinal-ruído. Além disso, os pesos para cada função são gerados
-#' aleatóriamente seguindo uma \eqn{\mathcal{U}(0,1)}.
+#' aleatóriamente seguindo uma \eqn{\mathcal{U}(0,1)} e são modificados de forma
+#' a garantir que sua soma é \eqn{1}.
 #'
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
@@ -35,13 +33,13 @@
 #' par(mfrow=c(2,1))
 #' plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
 #'
-#' # plan(multisession, workers=3)  # paralelizando execução
+#' # plan(multisession, workers=2)  # paralelizando execução
 #' fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
 #' simu(fun_comp, rep=4, n=10, snr=5)
 
-simu <- function(fun_comp, rep, n=10, snr, policy='sure', filter.number=10, signal=7) {
-  if(nbrOfWorkers() == 1) warning('Simulação não está sendo paralelizada.')
-  # fun_comp <- apply(fun_comp, margin, ...) # fazzer a função ter sd = 7
+simu <- function(fun_comp, snr, rep, n=10, policy='sure', filter.number=10) {
+  if(nbrOfWorkers() == 1) message('\nCuidado: a simulação não está sendo paralelizada.')
+  # fun_comp <- apply(fun_comp, margin, ...) # fazer a função ter sd = 7
   future_map(1:rep, ~{
     # gerando amostra
     L <- nrow(fun_comp)  # número de curvas componentes
@@ -52,7 +50,8 @@ simu <- function(fun_comp, rep, n=10, snr, policy='sure', filter.number=10, sign
     alpha <- desagrega(fun_agr, y, policy=policy, filter.number=filter.number)
 
     # calculando erro
-    list('MSE'=rowMeans((t(alpha) - fun_comp)^2), 'AMSE'=mean(MSE))
-  }, .options=furrr_options(seed=TRUE), .progress=T)
-  # Preciso juntar isso em uma lista
+    data.frame('MSE'=t(rowMeans((t(alpha) - fun_comp)^2)), 'AMSE'=mean(MSE))
+  }, .options=furrr_options(seed=TRUE), .progress=T) |>
+    do.call(rbind, args=_) |>
+    setNames(nm=c(paste0('MSE_', 1:nrow(fun_comp)), 'AMSE'))
 }
