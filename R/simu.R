@@ -52,10 +52,7 @@ simu <- function(fun_comp, rep, n=10, snr, policy='sure', filter.number=10, sign
     alpha <- desagrega(fun_agr, y, policy=policy, filter.number=filter.number)
 
     # calculando erro
-    MSE_1 <- sum((alpha[,1] - fun_comp[1,])^2) / ncol(fun_comp)  # MSE da fç componente 1
-    MSE_2 <- sum((alpha[,2] - fun_comp[2,])^2) / ncol(fun_comp)  # MSE da fç componente 2
-    AMSE <- (MSE_1 + MSE_2) / 2
-    data.frame('MSE_1'=MSE_1, 'MSE_2'=MSE_2, 'AMSE'=AMSE)
-  }, .options=furrr_options(seed=TRUE), .progress=T) |>
-    do.call(rbind, args=_)
+    list('MSE'=rowMeans((t(alpha) - fun_comp)^2), 'AMSE'=mean(MSE))
+  }, .options=furrr_options(seed=TRUE), .progress=T)
+  # Preciso juntar isso em uma lista
 }
