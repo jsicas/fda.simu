@@ -17,7 +17,7 @@
 #' Esta função gera uma amostra de dados funcionais agregados baseado na entrada
 #' das funções componentes, razão sinal-ruído e tamanho da amostra.
 #'
-#' @returns Retorna uma \code{matriz} e cada linha representa uma observação.
+#' @returns Retorna uma \code{matriz} onde cada linha representa uma observação.
 #'
 #' @examples
 #' bumps <- f_test()$bumps
@@ -32,10 +32,10 @@
 
 sample_gen <- function(fun_comp, snr, n=10, stand=T, signal=7) {
   if (isTRUE(stand))
-    fun_comp <- signal * fun_comp/apply(fun_comp, 1, sd)  # garantindo sd(sinal)=7
+    fun_comp <- fun_comp/apply(fun_comp, 1, sd) * signal  # garantindo sd(sinal)=7
   L <- nrow(fun_comp)  # número de curvas componentes
   y <- apply(matrix(runif(L*n), nrow=L), 2,
              function(col) col/sum(col))  # soma dos pesos igual a 1
   fun_agr <- t(y) %*% fun_comp + rnorm(n*ncol(fun_comp), 0, 7/snr)
-  return(fun_agr)
+  return(list(fun_agr, y))
 }

@@ -20,7 +20,7 @@ razão sinal-ruído igual a \code{signal}.}
 \item{signal}{desvio padrão dos dados após padronização.}
 }
 \value{
-Retorna uma \code{matriz} e cada linha representa uma observação.
+Retorna uma \code{matriz} onde cada linha representa uma observação.
 }
 \description{
 Esta função gera uma amostra de dados funcionais agregados baseado na entrada
