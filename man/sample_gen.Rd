@@ -31,9 +31,10 @@ bumps <- f_test()$bumps
 doppler <- f_test()$doppler
 par(mfrow=c(2,1))
 plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
+par(mfrow=c(1,1))
 
 fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
 sample <- sample_gen(fun_comp, snr=5, n=7)
-plot(1:1024, ylim=c(min(sample), max(sample)), type='n')
-lapply(1:nrow(sample), \(i) lines(sample[i,], col=i)) |> invisible()
+plot(1:1024, main='Amostra Gerada', ylab='', ylim=c(min(sample$fun), max(sample$fun)), type='n')
+lapply(1:nrow(sample$fun), \(i) lines(sample$fun[i,], col=i)) |> invisible()
 }

@@ -24,11 +24,12 @@
 #' doppler <- f_test()$doppler
 #' par(mfrow=c(2,1))
 #' plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
+#' par(mfrow=c(1,1))
 #'
 #' fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
 #' sample <- sample_gen(fun_comp, snr=5, n=7)
-#' plot(1:1024, ylim=c(min(sample), max(sample)), type='n')
-#' lapply(1:nrow(sample), \(i) lines(sample[i,], col=i)) |> invisible()
+#' plot(1:1024, main='Amostra Gerada', ylab='', ylim=c(min(sample$fun), max(sample$fun)), type='n')
+#' lapply(1:nrow(sample$fun), \(i) lines(sample$fun[i,], col=i)) |> invisible()
 
 sample_gen <- function(fun_comp, snr, n=10, stand=T, signal=7) {
   if (isTRUE(stand))
@@ -37,5 +38,5 @@ sample_gen <- function(fun_comp, snr, n=10, stand=T, signal=7) {
   y <- apply(matrix(runif(L*n), nrow=L), 2,
              function(col) col/sum(col))  # soma dos pesos igual a 1
   fun_agr <- t(y) %*% fun_comp + rnorm(n*ncol(fun_comp), 0, 7/snr)
-  return(list(fun_agr, y))
+  return(list('fun'=fun_agr, 'y'=y))
 }

@@ -14,8 +14,8 @@
 #' @inheritParams sample_gen
 #' @inheritParams desagrega
 #'
-#' @returns Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada
-#' função e o AMSE.
+#' @returns Retorna um objeto da classe \code{data.frame} com o cálculo do MSE
+#' de cada função e o AMSE.
 #'
 #' @details
 #' A função assume que, para o cálculo da razão sinal-ruído, que
@@ -42,13 +42,13 @@
 simu <- function(fun_comp, snr, rep, n=10, policy='sure', filter.number=10,
                  stand=F, signal=7) {
   if(nbrOfWorkers() == 1)
-    message('\nCuidado: a simulação não está sendo paralelizada.')
+    message('\nCuidado: a simulação não está sendo paralelizada.\n')
   future_map(1:rep, ~{
     # gerando amostra
     sample <- sample_gen(fun_comp, snr, n, stand=stand, signal=signal)
 
     # wavelets
-    alpha <- desagrega(sample$fun_agr, sample$y, policy=policy,
+    alpha <- desagrega(sample$fun, sample$y, policy=policy,
                        filter.number=filter.number)
     # calculando erro
     data.frame('MSE'=t(rowMeans((t(alpha) - fun_comp)^2)), 'AMSE'=mean(MSE))
