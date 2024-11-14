@@ -20,7 +20,8 @@
 #' @param family Especifíca a família da ondaleta, e.g. "DaubExPhase", "DaubLeAsymm".
 #' @inheritParams logis_shrink
 #'
-#' @returns Retorna uma matriz com a função recuperar no domínio do tempo.
+#' @returns Retorna uma matriz com a função recuperar no domínio do tempo de forma
+#' que cada linha representa uma função recuperada.
 #'
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
@@ -64,12 +65,12 @@ desagrega <- function(data, y, policy='sure', filter.number=10, family='DaubExPh
   } else if (policy == 'logistica') {
     D_shrink <- sapply(D, function(x = D) c(accessC(x, lev=0), logis_shrink(x$D,a,s,t)))
   } else if (policy == 'epanechnikov') {
-
+    message('Regra não implementada!')
   } else {
     stop('Politica de limiar mal especificada.')
   }
   gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))  # coeficientes de ondaletas estimados
   alpha <- do.call(GenW, list(n=ncol(data), filter.number,
                               family)) %*% gamma    # funções recuperadas
-  return(alpha)
+  return(t(alpha))
 }

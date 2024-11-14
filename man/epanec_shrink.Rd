@@ -11,7 +11,7 @@ epanec_shrink(d, a, b, lambda)
 
 \item{a}{parâmetro \eqn{\alpha} da mistura.}
 
-\item{b}{parâmetro \eqn{\beta} da Epanechnikov Generalizada. Ver
+\item{b}{parâmetro \eqn{\beta} da Epanechnikov Generalizada, ver
 \code{\link{ddexp}}.}
 
 \item{lambda}{parâmetro da priori exponencial atribuida à \eqn{\sigma^2}.}

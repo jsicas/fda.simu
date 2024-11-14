@@ -1,0 +1,81 @@
+---
+title: 'uso_geral'
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{uso_geral}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=7,
+  fig.height=4
+)
+```
+
+# Dados Funcionais
+TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA TEORIA
+
+## Caso $L=2$
+```{r}
+library(fda.simu)
+
+# funções verdadeiras
+bumps <- f_test()$bumps; doppler <- f_test()$doppler
+
+# plot das funções componentes verdadeiras
+plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
+# gerando amostra
+fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)  # componentes precisam ser uma matriz
+sample <- sample_gen(fun_comp, snr=5, n=10, stand=F)
+
+# plot da amostra
+plot(1:1024, main='Amostra Gerada', ylab='', type='n', ylim=c(min(sample$fun), max(sample$fun)))
+lapply(1:nrow(sample$fun), \(i) lines(sample$fun[i,], col=i)) |> invisible()
+```
+
+```{r, fig.show='hold'}
+# recuperando funções
+fun_recup <- desagrega(sample$fun, y=sample$y, policy='cv')
+plot(fun_recup[1,], col=2, type='l', main='Bumps Recuperada'); lines(bumps)
+plot(fun_recup[2,], col=2, type='l', main='Doppler Recuperada'); lines(doppler)
+```
+
+
+## Caso $L=3$
+```{r}
+# função verdadeira adicional
+blocks <- f_test()$blocks
+
+# plot das funções componentes verdadeiras
+plot(blocks, type='l', main='Blocks')
+# gerando amostra
+fun_comp <- matrix(c(bumps, doppler, blocks), nrow=3, byrow=T)  # componentes precisam ser uma matriz
+sample <- sample_gen(fun_comp, snr=5, n=10, stand=F)
+
+# plot da amostra
+plot(1:1024, main='Amostra Gerada', ylab='', type='n', ylim=c(min(sample$fun), max(sample$fun)))
+lapply(1:nrow(sample$fun), \(i) lines(sample$fun[i,], col=i)) |> invisible()
+```
+
+```{r, fig.show='hold'}
+# recuperando funções
+fun_recup <- desagrega(sample$fun, y=sample$y, policy='cv')
+plot(fun_recup[1,], col=2, type='l', main='Bumps Recuperada'); lines(bumps)
+plot(fun_recup[2,], col=2, type='l', main='Doppler Recuperada'); lines(doppler)
+plot(fun_recup[3,], col=2, type='l', main='Blocks Recuperada'); lines(blocks)
+```
+
+
+## Simulações
+O comando `simu` faz exatamente o procedimento apresentado anteriormente, mas de forma paralelizada e com repetições. Considere o último caso $(L=3)$.
+
+```{r}
+# plan(multisession, workers=3)  # paralelizando execução
+simu(fun_comp, snr=5, rep=5, n=10, policy='cv', stand=F)
+```
+

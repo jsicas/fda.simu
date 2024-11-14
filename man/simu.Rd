@@ -5,7 +5,7 @@
 \title{Simulação para Política de Limiar}
 \usage{
 simu(fun_comp, snr, rep, n=10, policy='sure', filter.number=10,
-   stand=F, signal=7)
+     stand=T, signal=7)
 }
 \arguments{
 \item{fun_comp}{objeto com as \eqn{L} funções componentes, onde cada linha é uma
@@ -29,22 +29,20 @@ razão sinal-ruído igual a \code{signal}.}
 \item{signal}{desvio padrão dos dados após padronização.}
 }
 \value{
-Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada
-função e o AMSE.
+Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada função
+e o AMSE.
 }
 \description{
 Simulação para Política de Limiar
 }
 \details{
-A função assume que, para o cálculo da razão sinal-ruído, que
-\eqn{sd(sinal)=7}.
+A função assume que, para o cálculo da razão sinal-ruído, que \eqn{sd(sinal)=7}.
 Os pesos para cada função são gerados aleatóriamente seguindo uma
 \eqn{\mathcal{U}(0,1)} e são modificados de forma a garantir que sua soma é
 \eqn{1}.
 }
 \examples{
-bumps <- f_test()$bumps
-doppler <- f_test()$doppler
+bumps <- f_test()$bumps; doppler <- f_test()$doppler
 par(mfrow=c(2,1))
 plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
 

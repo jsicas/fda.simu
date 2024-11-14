@@ -27,7 +27,8 @@ desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase',
 \item{t}{parâmetro \eqn{\tau} da logística.}
 }
 \value{
-Retorna uma matriz com a função recuperar no domínio do tempo.
+Retorna uma matriz com a função recuperar no domínio do tempo de forma
+que cada linha representa uma função recuperada.
 }
 \description{
 Desagregador Dados Funcionais

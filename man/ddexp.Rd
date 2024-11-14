@@ -17,7 +17,7 @@ ddexp(x, mu, scale)
 Função Densidade de Probabilidade da Exponencial Dupla (Laplace)
 }
 \details{
-Seja \eqn{X} uma variável aleatória com distribuição de Laplace, então, sua função
-densidade de probabilidade é dada por:
+Seja \eqn{X} uma variável aleatória com distribuição de Laplace, então, sua
+função densidade de probabilidade é dada por:
 \deqn{f(x) = \dfrac{1}{2\beta} \exp\left\{ -\dfrac{|x-\mu|}{\beta} \right\}}
 }

@@ -1,3 +1,6 @@
 .Rproj.user
 *.ini
 .Rhistory
+inst/doc
+/doc/
+/Meta/

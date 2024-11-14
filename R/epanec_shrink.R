@@ -6,7 +6,7 @@
 #'
 #' @param d coeficiente de ondaleta.
 #' @param a parâmetro \eqn{\alpha} da mistura.
-#' @param b parâmetro \eqn{\beta} da Epanechnikov Generalizada. Ver
+#' @param b parâmetro \eqn{\beta} da Epanechnikov Generalizada, ver
 #' \code{\link{ddexp}}.
 #' @param lambda parâmetro da priori exponencial atribuida à \eqn{\sigma^2}.
 #'
