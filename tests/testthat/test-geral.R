@@ -6,9 +6,12 @@ set.seed(282829)  # garantindo reprodutibilidade
 snr <- 5; n <- 4
 fun_comp_test <- matrix(c(f_test()$bumps, f_test()$doppler), nrow=2, byrow=T)
 L <- nrow(fun_comp_test)  # número de curvas componentes
-y <- apply(matrix(runif(L*n), nrow=L), 2,
-           \(col) col/sum(col))  # soma dos pesos igual a 1
+y <- apply(matrix(runif(L*n), nrow=L), 2, \(col) col/sum(col))  # soma dos pesos igual a 1
 fun_agr_test <- t(y) %*% fun_comp_test + rnorm(n*ncol(fun_comp_test), 0, 7/snr)
+D <- apply(fun_agr_test, MARGIN=1, wd, family='DaubExPhase')
+D_shrink <- sapply(D, \(x = threshold(D, policy='sure')) c(accessC(x, lev=0), x$D))
+gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))
+alpha <- t(GenW(ncol(fun_agr_test), filter.number=10, family='DaubExPhase') %*% gamma)
 
 
 #---- testes ------------------------------------
@@ -30,7 +33,7 @@ test_that('sample_gen: com padronização', {
 
 
 test_that('desagrega', {
-  expect_snapshot_value(desagrega(fun_agr_test, y), style='json2')
+  expect_equal(desagrega(fun_agr_test, y), alpha)
 })
 
 

@@ -39,8 +39,7 @@ sample_gen <- function(fun_comp, snr, n=10, stand=T, signal=7) {
     fun_comp <- fun_comp/apply(fun_comp, 1, sd) * signal  # garantindo sd(sinal) = 7
   }
   L <- nrow(fun_comp)  # número de curvas componentes
-  y <- apply(matrix(runif(L*n), nrow=L), 2,
-             \(col) col/sum(col))  # soma dos pesos igual a 1
+  y <- apply(matrix(runif(L*n), nrow=L), 2, \(col) col/sum(col))  # soma dos pesos igual a 1
   fun_agr <- t(y) %*% fun_comp + rnorm(n*ncol(fun_comp), 0, signal/snr)
   return(list('fun'=fun_agr, 'y'=y))
 }

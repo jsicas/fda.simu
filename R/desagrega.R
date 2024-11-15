@@ -61,16 +61,15 @@ desagrega <- function(data, y, policy='sure', filter.number=10, family='DaubExPh
                       a=0.8, s=1, t=1) {
   D <- apply(data, MARGIN=1, wd, filter.number, family)  # coeficientes empiricos
   if (policy %in% c('universal', 'sure', 'cv', 'fdr')) {
-    D_shrink <- sapply(D, function(x = threshold(D, policy=policy)) c(accessC(x, lev=0), x$D))
+    D_shrink <- sapply(D, \(x = threshold(D, policy=policy)) c(accessC(x, lev=0), x$D))
   } else if (policy == 'logistica') {
-    D_shrink <- sapply(D, function(x = D) c(accessC(x, lev=0), logis_shrink(x$D,a,s,t)))
+    D_shrink <- sapply(D, \(x = D) c(accessC(x, lev=0), logis_shrink(x$D,a,s,t)))
   } else if (policy == 'epanechnikov') {
     message('Regra não implementada!')
   } else {
     stop('Politica de limiar mal especificada.')
   }
-  gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))  # coeficientes de ondaletas estimados
-  alpha <- do.call(GenW, list(n=ncol(data), filter.number,
-                              family)) %*% gamma    # funções recuperadas
-  return(t(alpha))
+  gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))
+  alpha <- t(GenW(ncol(data), filter.number, family) %*% gamma)  # funções recuperadas
+  return(alpha)
 }
