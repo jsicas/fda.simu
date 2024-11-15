@@ -43,7 +43,7 @@
 #' de escala \eqn{\frac{1}{\sqrt{2\lambda}}}.
 #'
 #' @references
-#' NULL
+#' Fidel
 #'
 #' @examples
 #' curve(epanec_shrink(x, 0.8, 4, 6), -6, 6)

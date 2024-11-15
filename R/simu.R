@@ -40,11 +40,15 @@
 
 simu <- function(fun_comp, snr, rep, n=10, policy='sure', filter.number=10,
                  stand=T, signal=7) {
-  if(nbrOfWorkers() == 1)
-    message('\nCuidado: a simulação não está sendo paralelizada.\n')
+  if (nbrOfWorkers() == 1)
+    message('\nCuidado: a simulação não está sendo paralelizada.')
+  if (stand == T & !all(round(apply(fun_comp, 1, sd), 10) == signal)) {
+    message('As funcoes componentes foram normalizadas (sd(sinal) != signal).')
+    fun_comp <- fun_comp/apply(fun_comp, 1, sd) * signal  # garantindo sd(sinal)=7
+  }
   future_map(1:rep, ~{
     # gerando amostra
-    sample <- sample_gen(fun_comp, snr, n, stand, signal)
+    sample <- sample_gen(fun_comp, snr, n, stand=F, signal)
     # wavelets
     alpha <- desagrega(sample$fun, sample$y, policy=policy,
                        filter.number=filter.number)

@@ -9,8 +9,8 @@
 #' função.
 #' @param snr razão sinal-ruído.
 #' @param n tamanho da amostra gerada.
-#' @param stand Se TRUE (default) as funções componentes são padronizada para terem
-#' razão sinal-ruído igual a \code{signal}.
+#' @param stand Se FALSE (default) as funções componentes não são padronizada para
+#'   terem razão sinal-ruído igual a \code{signal}.
 #' @param signal desvio padrão dos dados após padronização.
 #'
 #' @description
@@ -34,11 +34,13 @@
 #' lapply(1:nrow(sample$fun), \(i) lines(sample$fun[i,], col=i)) |> invisible()
 
 sample_gen <- function(fun_comp, snr, n=10, stand=T, signal=7) {
-  if (isTRUE(stand))
-    fun_comp <- fun_comp/apply(fun_comp, 1, sd) * signal  # garantindo sd(sinal)=7
+  if (isTRUE(stand) & !all(round(apply(fun_comp, 1, sd), 10) == signal)) {
+    warning('As funções componentes foram padronizadas (sd(sinal) != signal).')
+    fun_comp <- fun_comp/apply(fun_comp, 1, sd) * signal  # garantindo sd(sinal) = 7
+  }
   L <- nrow(fun_comp)  # número de curvas componentes
   y <- apply(matrix(runif(L*n), nrow=L), 2,
-             function(col) col/sum(col))  # soma dos pesos igual a 1
-  fun_agr <- t(y) %*% fun_comp + rnorm(n*ncol(fun_comp), 0, 7/snr)
+             \(col) col/sum(col))  # soma dos pesos igual a 1
+  fun_agr <- t(y) %*% fun_comp + rnorm(n*ncol(fun_comp), 0, signal/snr)
   return(list('fun'=fun_agr, 'y'=y))
 }

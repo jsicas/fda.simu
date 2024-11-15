@@ -55,3 +55,6 @@ de escala \eqn{\frac{1}{\sqrt{2\lambda}}}.
 \examples{
 curve(epanec_shrink(x, 0.8, 4, 6), -6, 6)
 }
+\references{
+Fidel
+}

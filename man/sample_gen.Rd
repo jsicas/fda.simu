@@ -14,8 +14,8 @@ função.}
 
 \item{n}{tamanho da amostra gerada.}
 
-\item{stand}{Se TRUE (default) as funções componentes são padronizada para terem
-razão sinal-ruído igual a \code{signal}.}
+\item{stand}{Se FALSE (default) as funções componentes não são padronizada para
+terem razão sinal-ruído igual a \code{signal}.}
 
 \item{signal}{desvio padrão dos dados após padronização.}
 }

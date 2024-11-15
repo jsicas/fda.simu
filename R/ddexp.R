@@ -7,7 +7,7 @@
 #' @param scale parâmetro de escala.
 #'
 #' @details
-#' Seja \eqn{X} uma variável aleatória com distribuição de Laplace, então, sua
+#' Seja \eqn{X} uma variável aleatória com distri buição de Laplace, então, sua
 #' função densidade de probabilidade é dada por:
 #' \deqn{f(x) = \dfrac{1}{2\beta} \exp\left\{ -\dfrac{|x-\mu|}{\beta} \right\}}
 
