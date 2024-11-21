@@ -1,4 +1,5 @@
 #---- configurações iniciais --------------------
+library(wavethresh) |> suppressMessages()
 
 set.seed(282829)  # garantindo reprodutibilidade
 
@@ -8,10 +9,10 @@ fun_comp_test <- matrix(c(f_test()$bumps, f_test()$doppler), nrow=2, byrow=T)
 L <- nrow(fun_comp_test)  # número de curvas componentes
 y <- apply(matrix(runif(L*n), nrow=L), 2, \(col) col/sum(col))  # soma dos pesos igual a 1
 fun_agr_test <- t(y) %*% fun_comp_test + rnorm(n*ncol(fun_comp_test), 0, 7/snr)
-D <- apply(fun_agr_test, MARGIN=1, wd, family='DaubExPhase')
+D <- apply(fun_agr_test, MARGIN=1, wd, filter.number=8, family='DaubExPhase')
 D_shrink <- sapply(D, \(x = threshold(D, policy='sure')) c(accessC(x, lev=0), x$D))
 gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))
-alpha <- t(GenW(ncol(fun_agr_test), filter.number=10, family='DaubExPhase') %*% gamma)
+alpha <- t(GenW(ncol(fun_agr_test), filter.number=8, family='DaubExPhase') %*% gamma)
 
 
 #---- testes ------------------------------------
@@ -33,7 +34,7 @@ test_that('sample_gen: com padronização', {
 
 
 test_that('desagrega', {
-  expect_equal(desagrega(fun_agr_test, y), alpha)
+  expect_equal(desagrega(fun_agr_test, y, filter.number=8), alpha)
 })
 
 
@@ -41,13 +42,13 @@ test_that('simu: testando duas curvas', {
   set.seed(282829)
   comp <- matrix(c(f_test(signal=3)$bumps, f_test()$doppler), nrow=2, byrow=T)
   msg1 <- '\nCuidado: a simulação não está sendo paralelizada.'
-  msg2 <- 'As funcoes componentes foram normalizadas (sd(sinal) != signal).'
+  # msg2 <- 'As funcoes componentes foram normalizadas (sd(sinal) != signal).'
 
   expect_message(simu(comp, rep=3, snr=5), msg1)   # mensagem para falta de paralelização
-  expect_snapshot_value(suppressMessages(simu(fun_agr_test, rep=3, snr=5)),
-                        style='json2')  # funcionalidade geral
-  expect_snapshot_value(suppressMessages(simu(comp, rep=3, snr=5)),
-                        style='json2')  # funcionalidade para sd(sinal) != signal
+  expect_snapshot_value(suppressMessages(
+    simu(fun_agr_test, rep=3, snr=5)), style='json2')  # funcionalidade geral
+  expect_snapshot_value(suppressMessages(
+    simu(comp, rep=3, snr=5)), style='json2')  # funcionalidade para sd(sinal) != signal
 })
 
 
