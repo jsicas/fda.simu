@@ -15,7 +15,9 @@ RoxygenNote: 7.3.2
 LazyData: true
 Imports:
   wavethresh,
-  furrr
+  future,
+  furrr,
+  purrr
 Suggests:
     knitr,
     rmarkdown,
