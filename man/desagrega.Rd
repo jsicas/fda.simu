@@ -55,10 +55,10 @@ fun_recup <- desagrega(sample, y)
 par(mar=c(3, 4, 2, 2)); layout(matrix(c(1,1,2,3), 2, byrow=T))
 plot(1:1000, main='Amostra', ylim=c(-15, 58), type='n', xlab='', ylab='')
 for (i in 1:10) lines(sample[i,], col=i)
-plot(fun_recup[,1], main='Bumps', ylab='y', col='blue', type='l'); lines(bumps)
+plot(fun_recup[1,], main='Bumps', ylab='y', col='blue', type='l'); lines(bumps)
 legend('topright', lwd=2, bty='n', cex=0.85,
        legend=c('Função Verdadeira', 'Função Recuperada'), col=c('black', 'blue'))
-plot(fun_recup[,2], main='Doppler', ylab='y', col='blue', type='l'); lines(doppler)
+plot(fun_recup[2,], main='Doppler', ylab='y', col='blue', type='l'); lines(doppler)
 legend('bottomright', lwd=2, bty='n', cex=0.85,
        legend=c('Função Verdadeira', 'Função Recuperada'), col=c('black', 'blue'))
 }
