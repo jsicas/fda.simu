@@ -26,7 +26,7 @@
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
 #' analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-#' [doi:10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
+#' DOI: [10.1515/mcma-2023-2016](https://doi.org/10.1515/mcma-2023-2016).
 #'
 #' @examples
 #' set.seed(282829)

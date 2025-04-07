@@ -26,6 +26,6 @@ Todas as funções são normalizadas para apresentarem o mesmo desvio padrão
 \code{signal}, cujo default é \eqn{7}.
 }
 \references{
-Donoho, D.L. and Johnstone, I.M. (1994), Ideal spatial adaptation by wavelet
+Donoho, D.L., Johnstone, I.M. (1994). Ideal spatial adaptation by wavelet
 shrinkage. \emph{Biometrika}, 81, 425–455.
 }

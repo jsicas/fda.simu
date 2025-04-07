@@ -16,7 +16,7 @@
 #' @returns Retorna uma lista com \code{n} pontos de cada função.
 #'
 #' @references
-#' Donoho, D.L. and Johnstone, I.M. (1994), Ideal spatial adaptation by wavelet
+#' Donoho, D.L., Johnstone, I.M. (1994). Ideal spatial adaptation by wavelet
 #' shrinkage. \emph{Biometrika}, 81, 425–455.
 
 f_test <- function(n=1024, signal=7, snr=7, noise=FALSE)
