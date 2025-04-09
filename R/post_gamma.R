@@ -4,30 +4,36 @@
 #'
 #' @details
 #' Partindo do modelo vetorial no dominio do tempo
-#' \deqn{\boldsymbol y =
-#' \boldsymbol f + \boldsymbol e} com \eqn{e_i \sim Gamma(\alpha, \lambda)}
-#' é possível obter a função de verossimilhança. Além disso, atribui-se a priori
-#' dos coeficientes de ondaleta \eqn{\boldsymbol\theta}, considerando
-#' independência entre seus elementos:
-#' \deqn{\displaystyle\pi(\boldsymbol\theta) = \prod_{i=1}^n[\alpha \delta_0(\theta_i) + (1 -
-#' \alpha) g(\theta_i; \tau)]}
+#' \deqn{
+#' \boldsymbol y = \boldsymbol f + \boldsymbol e
+#' }
+#' com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Além disso, atribuindo a priori
+#' dos coeficientes de ondaleta \eqn{\boldsymbol\theta} consiederado que seus
+#' elementos são independentes, tem-se:
+#' \deqn{
+#' \displaystyle\pi(\boldsymbol\theta) = \prod_{i=1}^n[\alpha \delta_0(\theta_i)
+#' + (1 - \alpha) g(\theta_i; \tau)]
+#' }
 #' onde \eqn{\alpha \in (0,1)}, \eqn{\delta_0} é o delta de Dirac com massa em 0
 #' e \eqn{g(\theta; \tau)} é a função densidade de probabilidade logística, dada
 #' por
-#' \deqn{g(\theta_i; \tau) = \dfrac{\exp\left\{-\frac{\theta}{\tau}\right\}}{\tau
+#' \deqn{
+#' g(\theta_i; \tau) = \dfrac{\exp\left\{-\frac{\theta}{\tau}\right\}}{\tau
 #' \left( 1 + \exp\left\{-\frac{\theta}{\tau}\right\} \right)^2} \;
-#' \mathcal{I}_\mathbb{R}(\theta) \;, \hspace{0.45cm} \tau > 0}
+#' \mathcal{I}_\mathbb{R}(\theta) \;, \hspace{0.45cm} \tau > 0
+#' }
 #' Portanto, com isso é possível obter a verossimilhança e computar a
 #' posteriori, dada por
-#' \deqn{\displaystyle \pi(\boldsymbol\theta \mid \boldsymbol d) \propto
-#' \prod_{i=1}^n \left[ \alpha \delta_0(\theta_i) + (1 - \alpha)
+#' \deqn{
+#' \displaystyle \pi(\boldsymbol\theta \mid \boldsymbol d) \propto \prod_{i=1}^n
+#' \left[ \alpha \delta_0(\theta_i) + (1 - \alpha)
 #' \frac{\exp\left\{-\frac{\theta_i}{\tau}\right\}}{\tau \left( 1 +
 #' \exp\left\{-\frac{\theta_i}{\tau}\right\} \right)^2} \right] \\ \times
 #' \exp\left\{-\lambda \sum_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k)\right\}
-#' \left( \prod_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k)
-#' \right)^{\alpha-1} \\ \times
-#' \prod_{i=1}^n \mathcal{I}_{(0,\infty)}\left(\sum_{k=1}^n w_{ki}
-#' (d_k -\theta_k)\right)}
+#' \left( \prod_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k) \right)^{\alpha-1} \\
+#' \times \prod_{i=1}^n \mathcal{I}_{(0,\infty)}\left(\sum_{k=1}^n w_{ki} (d_k
+#' -\theta_k)\right)
+#' }
 #'
 #' @references
 #' Sousa, A.R.S., Garcia, N.L (2023): Wavelet shrinkage in
@@ -35,7 +41,7 @@
 #' Statistical Computation and Simulation}, DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
-post <- function(a) {
-
+post_gamma <- function(theta, d, alpha) {
+  prod(alpha)
 }
 
