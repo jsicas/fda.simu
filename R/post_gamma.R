@@ -4,14 +4,20 @@
 #'
 #' @importFrom wavethresh GenW
 #'
-#' @details
-#' Partindo do modelo vetorial no dominio do tempo
+#' @details Partindo do modelo vetorial no dominio do tempo
 #' \deqn{
 #' \boldsymbol y = \boldsymbol f + \boldsymbol e
 #' }
-#' com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Além disso, atribuindo a priori
-#' dos coeficientes de ondaleta \eqn{\boldsymbol\theta} consiederado que seus
-#' elementos são independentes, tem-se:
+#' com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Então, no domínio das ondaletas,
+#' temos que o modelo é dado por
+#' \deqn{
+#' \boldsymbol d = \boldsymbol\theta + \boldsymbol\varepsilon}
+#' onde \eqn{\boldsymbol d = W \boldsymbol y} são os coeficiente empíricos,
+#' \eqn{\boldsymbol\theta = W \boldsymbol f} são os coeficientes de ondaleta
+#' verdadeiros e \eqn{\boldsymbol \varepsilon = W \boldsymbol e} é o erro no
+#' domínio das ondaletas Além disso, atribuindo a priori dos coeficientes de
+#' ondaleta \eqn{\boldsymbol\theta} consiederado que seus elementos são
+#' independentes, tem-se:
 #' \deqn{
 #' \displaystyle\pi(\boldsymbol\theta) = \prod_{i=1}^n[\alpha \delta_0(\theta_i)
 #' + (1 - \alpha) g(\theta_i; \tau)]
@@ -37,8 +43,7 @@
 #' -\theta_k)\right)
 #' }
 #'
-#' @references
-#' Sousa, A.R.S., Garcia, N.L (2023): Wavelet shrinkage in
+#' @references Sousa, A.R.S., Garcia, N.L (2023): Wavelet shrinkage in
 #' nonparametric regression models with positive noise. \emph{Journal of
 #' Statistical Computation and Simulation}, DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
@@ -46,7 +51,9 @@
 post_gamma <- function(theta, d, alpha, tau, lambda, filter.number,
                        family='DaubExPhase') {
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
-  prod((1 - alpha) * dlogis(theta, scale=tau)) *
-    exp(-lambda * sum(W %*% (d-theta)))  # conferir
+  wdt_i <- t(W) %*% (d - theta)
+  if (all(wdt_i > 0)) {
+    prod((1 - alpha) * dlogis(theta, scale=tau)) *
+      exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(alpha - 1)
+  }
 }
-

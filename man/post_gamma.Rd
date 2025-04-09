@@ -4,7 +4,7 @@
 \alias{post_gamma}
 \title{Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma}
 \usage{
-post_gamma(theta, d, alpha)
+post_gamma(theta, d, alpha, tau, lambda, filter.number, family = "DaubExPhase")
 }
 \description{
 Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma
@@ -14,9 +14,16 @@ Partindo do modelo vetorial no dominio do tempo
 \deqn{
 \boldsymbol y = \boldsymbol f + \boldsymbol e
 }
-com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Além disso, atribuindo a priori
-dos coeficientes de ondaleta \eqn{\boldsymbol\theta} consiederado que seus
-elementos são independentes, tem-se:
+com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Então, no domínio das ondaletas,
+temos que o modelo é dado por
+\deqn{
+\boldsymbol d = \boldsymbol\theta + \boldsymbol\varepsilon}
+onde \eqn{\boldsymbol d = W \boldsymbol y} são os coeficiente empíricos,
+\eqn{\boldsymbol\theta = W \boldsymbol f} são os coeficientes de ondaleta
+verdadeiros e \eqn{\boldsymbol \varepsilon = W \boldsymbol e} é o erro no
+domínio das ondaletas Além disso, atribuindo a priori dos coeficientes de
+ondaleta \eqn{\boldsymbol\theta} consiederado que seus elementos são
+independentes, tem-se:
 \deqn{
 \displaystyle\pi(\boldsymbol\theta) = \prod_{i=1}^n[\alpha \delta_0(\theta_i)
 + (1 - \alpha) g(\theta_i; \tau)]
