@@ -2,6 +2,8 @@
 #'
 #' @export
 #'
+#' @importFrom wavethresh GenW
+#'
 #' @details
 #' Partindo do modelo vetorial no dominio do tempo
 #' \deqn{
@@ -41,7 +43,10 @@
 #' Statistical Computation and Simulation}, DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
-post_gamma <- function(theta, d, alpha) {
-  prod(alpha)
+post_gamma <- function(theta, d, alpha, tau, lambda, filter.number,
+                       family='DaubExPhase') {
+  W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
+  prod((1 - alpha) * dlogis(theta, scale=tau)) *
+    exp(-lambda * sum(W %*% (d-theta)))  # conferir
 }
 
