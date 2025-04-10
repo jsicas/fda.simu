@@ -25,8 +25,8 @@ domínio das ondaletas Além disso, atribuindo a priori dos coeficientes de
 ondaleta \eqn{\boldsymbol\theta} consiederado que seus elementos são
 independentes, tem-se:
 \deqn{
-\displaystyle\pi(\boldsymbol\theta) = \prod_{i=1}^n[\alpha \delta_0(\theta_i)
-+ (1 - \alpha) g(\theta_i; \tau)]
+\displaystyle\pi(\boldsymbol\theta; \alpha, \tau) = \prod_{i=1}^n[\alpha
+\delta_0(\theta_i) + (1 - \alpha) g(\theta_i; \tau)]
 }
 onde \eqn{\alpha \in (0,1)}, \eqn{\delta_0} é o delta de Dirac com massa em 0
 e \eqn{g(\theta; \tau)} é a função densidade de probabilidade logística, dada
