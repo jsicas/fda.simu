@@ -4,11 +4,17 @@
 #'
 #' @importFrom wavethresh GenW
 #'
+#' @param theta vetor
+#' @param d coeficientes empíricos.
+#' @param alpha coeficiente da spike and slab.
+#' @param beta,lambda parâmetro da \eqn{Gamma(\beta, \lambda)}.
+#' @param tau parâmetro da logística.
+#'
 #' @details Partindo do modelo vetorial no dominio do tempo
 #' \deqn{
 #' \boldsymbol y = \boldsymbol f + \boldsymbol e
 #' }
-#' com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Então, no domínio das ondaletas,
+#' com \eqn{e_i \sim Gamma(\beta, \lambda)}. Então, no domínio das ondaletas,
 #' temos que o modelo é dado por
 #' \deqn{
 #' \boldsymbol d = \boldsymbol\theta + \boldsymbol\varepsilon}
@@ -38,7 +44,7 @@
 #' \frac{\exp\left\{-\frac{\theta_i}{\tau}\right\}}{\tau \left( 1 +
 #' \exp\left\{-\frac{\theta_i}{\tau}\right\} \right)^2} \right] \\ \times
 #' \exp\left\{-\lambda \sum_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k)\right\}
-#' \left( \prod_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k) \right)^{\alpha-1} \\
+#' \left( \prod_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k) \right)^{\beta-1} \\
 #' \times \prod_{i=1}^n \mathcal{I}_{(0,\infty)}\left(\sum_{k=1}^n w_{ki} (d_k
 #' -\theta_k)\right)
 #' }
@@ -48,14 +54,14 @@
 #' Statistical Computation and Simulation}, DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
-post_gamma <- function(theta, d, alpha, tau, lambda, filter.number=5,
+post_gamma <- function(theta, d, alpha, beta, lambda, tau, filter.number=5,
                        family='DaubExPhase') {
   d_emp <- c(accessC(d, lev=0), d$D)
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
   wdt_i <- t(W) %*% as.vector((d_emp - theta))
   if (all(wdt_i > 0)) {
     return(prod(ifelse(theta == 0, alpha, 0) + (1 - alpha) * dlogis(theta, scale=tau)) *
-             exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(alpha - 1))
+             exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(beta - 1))
   } else {
     message('Fora do suporte.')
     return(0)

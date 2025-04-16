@@ -8,11 +8,23 @@ post_gamma(
   theta,
   d,
   alpha,
-  tau,
+  beta,
   lambda,
+  tau,
   filter.number = 5,
   family = "DaubExPhase"
 )
+}
+\arguments{
+\item{theta}{vetor}
+
+\item{d}{coeficientes empíricos.}
+
+\item{alpha}{coeficiente da spike and slab.}
+
+\item{beta, lambda}{parâmetro da \eqn{Gamma(\beta, \lambda)}.}
+
+\item{tau}{parâmetro da logística.}
 }
 \description{
 Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma
@@ -22,7 +34,7 @@ Partindo do modelo vetorial no dominio do tempo
 \deqn{
 \boldsymbol y = \boldsymbol f + \boldsymbol e
 }
-com \eqn{e_i \sim Gamma(\alpha, \lambda)}. Então, no domínio das ondaletas,
+com \eqn{e_i \sim Gamma(\beta, \lambda)}. Então, no domínio das ondaletas,
 temos que o modelo é dado por
 \deqn{
 \boldsymbol d = \boldsymbol\theta + \boldsymbol\varepsilon}
@@ -52,7 +64,7 @@ posteriori, dada por
 \frac{\exp\left\{-\frac{\theta_i}{\tau}\right\}}{\tau \left( 1 +
 \exp\left\{-\frac{\theta_i}{\tau}\right\} \right)^2} \right] \\ \times
 \exp\left\{-\lambda \sum_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k)\right\}
-\left( \prod_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k) \right)^{\alpha-1} \\
+\left( \prod_{i=1}^n\sum_{k=1}^n w_{ki} (d_k -\theta_k) \right)^{\beta-1} \\
 \times \prod_{i=1}^n \mathcal{I}_{(0,\infty)}\left(\sum_{k=1}^n w_{ki} (d_k
 -\theta_k)\right)
 }
