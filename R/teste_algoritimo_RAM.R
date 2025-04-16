@@ -1,5 +1,7 @@
 # Testes com o algorítimo RAM.
 
+#' @noRd
+
 # packages
 library(mvtnorm)
 library(wavethresh)
@@ -80,7 +82,7 @@ colMeans(theta[-(1:500),])
 # definindo parâmetros da função
 set.seed(282829)
 n <- 8                # quantidade de pontos
-L <- 500000                 # quantidade de iterações
+L <- 500                 # quantidade de iterações
 theta_1 <- c(-2.2445997, -4.2212565, -12.4897425, 5.8349722,
              -1.5304893, 3.9793896, 0.7659587, -8.0117955)  # chute inicial
 S_1 <- diag(n)         # chute inicial
@@ -91,6 +93,9 @@ lambda <- 40  # parâmetro gamma
 # d <- wd(f_test(n)$bumps,
 #         # + dgamma(n, shape=beta, rate=lambda),
 #         family='DaubExPhase', filter.number=5)  # coeficientes empíricos
+f <- f_test(n)$bumps
+y <- f + rgamma(n, shape=beta, rate=lambda)
+d <- wd(y, filter.number=5, family='DaubExPhase')
 
 theta <- matrix(0, L, n); theta[1,] <- theta_1
 S_l <- vector(mode='list', length=L); S_l[[1]] <- S_1
