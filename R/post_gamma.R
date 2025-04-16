@@ -48,16 +48,16 @@
 #' Statistical Computation and Simulation}, DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
-post_gamma <- function(theta, d, alpha, tau, lambda, filter.number,
+post_gamma <- function(theta, d, alpha, tau, lambda, filter.number=5,
                        family='DaubExPhase') {
+  d_emp <- c(accessC(d, lev=0), d$D)
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
-  wdt_i <- t(W) %*% (d - theta)
+  wdt_i <- t(W) %*% as.vector((d_emp - theta))
   if (all(wdt_i > 0)) {
-    prod((1 - alpha) * dlogis(theta, scale=tau)) *
-      exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(alpha - 1)
-  }
-  else {
+    return(prod(ifelse(theta == 0, alpha, 0) + (1 - alpha) * dlogis(theta, scale=tau)) *
+             exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(alpha - 1))
+  } else {
     message('Fora do suporte.')
-    0
+    return(0)
   }
 }

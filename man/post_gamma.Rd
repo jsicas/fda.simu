@@ -4,7 +4,15 @@
 \alias{post_gamma}
 \title{Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma}
 \usage{
-post_gamma(theta, d, alpha, tau, lambda, filter.number, family = "DaubExPhase")
+post_gamma(
+  theta,
+  d,
+  alpha,
+  tau,
+  lambda,
+  filter.number = 5,
+  family = "DaubExPhase"
+)
 }
 \description{
 Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma
