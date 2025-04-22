@@ -58,7 +58,7 @@ post_gamma <- function(theta, d, alpha, beta, lambda, tau, filter.number=5,
                        family='DaubExPhase') {
   d_emp <- c(accessC(d, lev=0), d$D)
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
-  wdt_i <- t(W) %*% as.vector((d_emp - theta))
+  wdt_i <- t(W) %*% as.vector((d_emp - theta))  # conferir esse passo
   if (all(wdt_i > 0)) {
     return(prod(ifelse(theta == 0, alpha, 0) + (1 - alpha) * dlogis(theta, scale=tau)) *
              exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(beta - 1))

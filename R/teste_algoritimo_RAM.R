@@ -79,14 +79,32 @@ colMeans(theta[-(1:500),])
 
 # Amostrando da Posteriori com Erro Gamma ---------------------------------
 
+# gerando ponto dentro do domínio
+set.seed(282829)
+n <- 8                                       # quantidade de pontos avaliados
+beta <- 10; lambda <- 40                     # parâmetros da gamma
+f <- f_test(n)$bumps                         # função verdadeira
+e <- rgamma(n, shape=beta, rate=lambda)      # erro
+y <- f + e                                   # valores observados
+dwt <- wd(y, filter.number=5, family='DaubExPhase')
+d <- c(accessC(dwt, lev=0), dwt$D)           # coeficientes empíricos
+a <- c(4, 5, 3, 4, 2, 4, 4, 2)               # W(d - theta) = a
+# a <- runif(n, 0, 1000)                       # W(d - theta) = a
+W <- t(GenW(n, filter.number=5, family='DaubExPhase'))
+theta <- d - W %*% a
+
+post_gamma(theta, dwt, alpha, beta, tau, lambda)
+
+
+
 # definindo parâmetros da função
 set.seed(282829)
-n <- 8                # quantidade de pontos
-L <- 500                 # quantidade de iterações
-theta_1 <- c(-2.2445997, -4.2212565, -12.4897425, 5.8349722,
-             -1.5304893, 3.9793896, 0.7659587, -8.0117955)  # chute inicial
-S_1 <- diag(n)         # chute inicial
-alpha <- 0.8
+n <- 8                # quantidade de pontos por função
+L <- 500              # quantidade de iterações
+theta_1 <- c(-2.2445997, -4.2212565, -12.4897425,  # chute inicial para theta
+             5.8349722, -1.5304893, 3.9793896, 0.7659587, -8.0117955)
+S_1 <- diag(n)         # chute inicial para matriz S
+alpha <- 0.8  # parâmetro de mistura da priori spike and sleb
 tau <- 2
 beta <- 10  # parâmetro gamma
 lambda <- 40  # parâmetro gamma
