@@ -13,7 +13,17 @@ gera_ponto(n, y, lim_sup = 20, filter.number = 5, family = "DaubExPhase")
 
 \item{lim_sup}{Valor máximo gerado para o ponto gerado a.}
 
-\item{...}{configurações referênte à DWT, como \code{filter.number} e \code{family}.}
+\item{filter.number}{This selects the smoothness of wavelet that you want to use in the decomposition. By default this is 10, the Daubechies least-asymmetric orthonormal compactly supported wavelet with 10 vanishing moments. 
+
+For the ``wavelets on the interval'' (\code{bc="interval"}) transform the filter number ranges from 1 to 8. See the table of filter coefficients indexed after the reference to Cohen, Daubechies and Vial, 1993.}
+
+\item{family}{specifies the family of wavelets that you want to use. Two popular options are "DaubExPhase" and "DaubLeAsymm" but see the help for \code{\link[wavethresh]{filter.select}} for more possibilities.
+ 
+This argument is ignored for the ``wavelets on the interval'' transform (\code{bc="interval"}).
+
+Note that, as of version 4.6.1 you can use the Lina-Mayrand complex-valued
+wavelets.
+}
 }
 \description{
 Gera um Ponto no Suprote da Posteriori com Erro Gamma

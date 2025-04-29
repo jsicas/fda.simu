@@ -8,7 +8,7 @@
 #' @param n Quantidade de pontos por função.
 #' @param y Dados.
 #' @param lim_sup Valor máximo gerado para o ponto gerado a.
-#' @param ... configurações referênte à DWT, como `filter.number` e `family`.
+#' @inheritParams wavethresh::wd
 
 gera_ponto <- function(n, y, lim_sup = 20, filter.number = 5,
                        family = 'DaubExPhase') {
