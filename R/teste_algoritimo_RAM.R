@@ -140,25 +140,25 @@
 
 
 # gerando w(d - theta) no suporte
-# set.seed(282829)
-# n <- 8
-# f <- f_test(n)$bumps
-# beta <- 10; lambda <- 40  # parâmetros da gamma
-# y <- f + rgamma(n, shape=beta, rate=lambda)
-# d <- wd(y, filter.number=5, family='DaubExPhase')
-# d_emp <- c(accessC(d, lev=0), d$D)
-#
-# # gerando valores positivos
-# x <- c(4, 5, 3, 4, 2, 4, 4, 2)
-# W <- t(GenW(n, filter.number=5, family='DaubExPhase'))
-# theta_1 <- d_emp - W %*% x
-#
-# t(W) %*% as.vector((d_emp - theta_1))  # wdt_i
-#
-#
-# # parametros da distribuição
-# alpha <- 0.8; tau <- 2; beta <- 10; lambda <- 40
-# post_gamma(theta_1, d, alpha, beta, tau, lambda)
+set.seed(282829)
+n <- 8
+f <- f_test(n)$bumps
+beta <- 10; lambda <- 80  # parâmetros da gamma
+y <- f + rgamma(n, shape=beta, rate=lambda)
+d <- wd(y, filter.number=5, family='DaubExPhase')
+d_emp <- c(accessC(d, lev=0), d$D)
+
+# gerando valores positivos
+x <- c(4, 5, 3, 4, 2, 4, 4, 2)
+W <- t(GenW(n, filter.number=5, family='DaubExPhase'))
+theta_1 <- d_emp - W %*% x
+
+t(W) %*% as.vector((d_emp - theta_1))  # wdt_i
+
+
+# parametros da distribuição
+alpha <- 0.8; tau <- 2; beta <- 10; lambda <- 40
+post_gamma(theta_1, d, alpha, beta, tau, lambda)
 
 
 

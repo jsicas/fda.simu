@@ -6,9 +6,10 @@
 #'
 #' @param theta vetor
 #' @param d coeficientes empíricos.
-#' @param alpha coeficiente da spike and slab.
 #' @param beta,lambda parâmetro da \eqn{Gamma(\beta, \lambda)}.
 #' @param tau parâmetro da logística.
+#' @param alpha coeficiente da spike and slab (0.8 é o valor padrão).
+#' @inheritParams wavethresh::wd
 #'
 #' @details Partindo do modelo vetorial no dominio do tempo
 #' \deqn{
@@ -54,7 +55,7 @@
 #' Statistical Computation and Simulation}, DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
-post_gamma <- function(theta, d, alpha, beta, lambda, tau, filter.number=5,
+post_gamma <- function(theta, d, beta, lambda, tau, alpha=0.8, filter.number=5,
                        family='DaubExPhase') {
   d_emp <- c(accessC(d, lev=0), d$D)
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))

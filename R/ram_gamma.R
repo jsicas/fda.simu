@@ -34,7 +34,6 @@
 ram_gamma <- function(theta_1 = NULL, S_1 = NULL, f, alpha=0.8, tau=2,
                       beta, lambda, n_ite = 50000, gamma = 2/3,
                       filter.number=5, family='DaubExPhase') {
-
   # criando objetos
   n <- length(f)                  # quantidade de pontos por função
   theta <- matrix(0, n_ite, n)    # matriz contendo amostra de theta
@@ -58,8 +57,8 @@ ram_gamma <- function(theta_1 = NULL, S_1 = NULL, f, alpha=0.8, tau=2,
     theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
 
     # taxa de aceitação
-    gamma_l[i-1] <- min(1, post_gamma(theta_star, dwt, alpha, beta, tau, lambda)/
-                          post_gamma(theta[i-1,], dwt, alpha, beta, tau, lambda))
+    gamma_l[i-1] <- min(1, post_gamma(theta_star, dwt, beta, tau, lambda, alpha)/
+                          post_gamma(theta[i-1,], dwt, beta, tau, lambda, alpha))
 
     if (rbinom(1, 1, gamma_l[i-1]) == 1) theta[i,] <- theta_star
     else theta[i,] <- theta[i-1,]
