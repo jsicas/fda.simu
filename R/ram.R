@@ -4,6 +4,7 @@
 #' @importFrom mvtnorm rmvnorm
 #'
 #' @export
+
 ram <- function(theta_1 = NULL, S_1 = NULL, y, alpha=0.8, tau=2,
                 beta, lambda, n_ite = 50000, gamma = 2/3,
                 filter.number=5, family='DaubExPhase') {
@@ -42,8 +43,8 @@ ram <- function(theta_1 = NULL, S_1 = NULL, y, alpha=0.8, tau=2,
   }
 
   return(list('theta'=theta, 'S'=S_l, 'gamma_l'=gamma_l,
-              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau, 'beta'=beta,
-                             'lambda'=lambda, 'gamma'=gamma,
+              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau,
+                             'beta'=beta, 'lambda'=lambda, 'gamma'=gamma,
                              'filter.number'=filter.number, 'family'=family)
   ))
 }
