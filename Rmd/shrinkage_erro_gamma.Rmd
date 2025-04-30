@@ -1,0 +1,74 @@
+---
+title: "shrinkage_erro_gamma"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# packages
+library(fda.simu)
+library(wavethresh)
+library(knitr)
+```
+
+# Aplicando em modelo não agregado
+```{r}
+set.seed(123)
+
+# definindo parâmetros
+n <- 16
+beta <- 10; lambda <- 5  # parâmetros do erro Gamma
+alpha <- 0.8
+
+# gerando amostra
+f <- f_test(n)$bumps
+e <- rgamma(n, shape=beta, rate=lambda)
+y <- f + e
+
+# DWT
+d <- wd(y, filter.number=5, family='DaubExPhase')
+theta_true <- wd(f, filter.number=5, family='DaubExPhase') |> (\(x) c(accessC(x, lev=0), x$D))()
+
+# RAM
+theta_1 <- gera_ponto(n, y)  # chute inicial
+post_gamma(theta_1, d, beta, lambda, tau=5)
+
+sample <- ram(theta_1, S_1=NULL, y, tau=5, alpha, beta, lambda, n_ite=10000)
+
+kable(data.frame('theta_i'=1:n, 'theta_true'=theta_true,
+                 'RAM'=colMeans(sample$theta)))
+``` 
+
+
+```{r, eval=F}
+# set.seed(282829)
+# 
+# # definindo parâmetros
+# n <- 16
+# beta <- 10; lambda <- 5  # parâmetros do erro Gamma
+# 
+# fun_comp <- matrix(c(f_test(n)$bumps, f_test(n)$doppler), 2, byrow=T)
+# 
+# #plotando funções
+# par(mfrow=c(1,2))
+# plot(fun_comp[1,], type='l', ylab='', main='Bumps')
+# plot(fun_comp[2,], type='l', ylab='', main='Doppler')
+# par(mfrow=c(1,1))
+# 
+# # gerando amostra
+# sample <- sample_gen(fun_comp, n=n, beta=beta, lambda=lambda, erro='gamma')
+# 
+# # plot da amostra
+# plot(x=(1:n)/n, y=NULL, type='n', xlim=c(0,1), ylim=c(-10, 30))
+# for (i in 1:n) lines(x=(1:n)/n, sample$fun[i,], type='b', col=i)
+# 
+# # aplicando RAM
+# gera_ponto()
+
+```
+
+
+
+
+

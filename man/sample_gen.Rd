@@ -18,6 +18,10 @@ função.}
 terem razão sinal-ruído igual a \code{signal}.}
 
 \item{signal}{desvio padrão dos dados após padronização.}
+
+\item{beta, lambda}{Parâmetros para erro \eqn{Gamma(\beta, \lambda)}.}
+
+\item{erro}{tipo de erro, podendo ser 'normal' ou 'gamma'.}
 }
 \value{
 Retorna uma \code{lista} contendo dois elementos: \code{fun}, onde cada linha é
