@@ -17,7 +17,7 @@
 #' y <- c(1,2,7,2,5,6,0,3)  # valores observados
 #' d <- wd(y, filter.number = 5, family = 'DaubExPhase')
 #' (theta <- gera_ponto(y))
-#' post_gamma(theta, d, beta = 5, lambda = 1, tau = 5, alpha = 0.7)  # posteriori
+#' post_gamma(theta, d, beta = 5, lambda = 1, tau = 4, alpha = 0.7)  # posteriori
 
 gera_ponto <- function(y, lim_sup = 20, filter.number = 5,
                        family = 'DaubExPhase') {
