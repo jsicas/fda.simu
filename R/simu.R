@@ -15,14 +15,14 @@
 #' @inheritParams desagrega
 #'
 #' @returns
-#' Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada função
-#' e o AMSE.
+#' Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada
+#' função e o AMSE.
 #'
 #' @details
-#' A função assume que, para o cálculo da razão sinal-ruído, que \eqn{sd(sinal)=7}.
-#' Os pesos para cada função são gerados aleatóriamente seguindo uma
-#' \eqn{\mathcal{U}(0,1)} e são modificados de forma a garantir que sua soma é
-#' \eqn{1}.
+#' A função assume que, para o cálculo da razão sinal-ruído, que
+#' \eqn{sd(sinal)=7}. Os pesos para cada função são gerados aleatóriamente
+#' seguindo uma \eqn{\mathcal{U}(0,1)} e são modificados de forma a garantir que
+#' sua soma é \eqn{1}.
 #'
 #' @references
 #' Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data

@@ -4,10 +4,18 @@
 \alias{gera_ponto}
 \title{Gera um Ponto no Suprote da Posteriori com Erro Gamma}
 \usage{
-gera_ponto(y, lim_sup = 20, filter.number = 5, family = "DaubExPhase")
+gera_ponto(
+  y = NULL,
+  d = NULL,
+  lim_sup = 20,
+  filter.number = 5,
+  family = "DaubExPhase"
+)
 }
 \arguments{
 \item{y}{Valores observados.}
+
+\item{d}{Coeficientes empíricos de ondaletas.}
 
 \item{lim_sup}{Valor máximo para uma coordenada gerado para o ponto gerado a.}
 
@@ -25,7 +33,7 @@ wavelets.
 }
 \description{
 Gera um ponto no domínio do tempo da função original garantindo que esta
-dentro do suporte da posteriori com erro Gamma \code{\link[=post_gamma]{post_gamma()}}.
+dentro do suporte da posteriori com erro Gamma, ver \code{\link[=post_gamma]{post_gamma()}}.
 }
 \examples{
 y <- c(1,2,7,2,5,6,0,3)  # valores observados

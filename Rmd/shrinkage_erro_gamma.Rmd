@@ -12,59 +12,177 @@ library(wavethresh)
 library(knitr)
 ```
 
-# Aplicando em modelo não agregado
+# Aplicando em Modelo com Erro Gamma
+Seja $X \sim Gamma(\beta, \lambda)$, então sua densidade é dada por:
+$$
+f(x) = \frac{\lambda^\beta}{\Gamma(\beta)}x^{\beta - 1} e^{-\lambda x}
+$$
+Além disso, sua esperança é dada por $\frac{\beta}{\lambda}$ e variância $\frac{\beta}{\lambda^2}$
+
+
 ```{r}
 set.seed(123)
 
 # definindo parâmetros
-n <- 16
-beta <- 10; lambda <- 5  # parâmetros do erro Gamma
-alpha <- 0.8
+m <- 16                  # quantidade de pontos por curva
+beta <- 10; lambda <- 5  # parâmetros do erro Gamma(beta, lambda)
+alpha <- 0.8             # parâmetro da mistura priori spike and slab
+tau <- 5                 # parâmetro da logística presente na priori
 
 # gerando amostra
-f <- f_test(n)$bumps
-e <- rgamma(n, shape=beta, rate=lambda)
+f <- f_test(m)$bumps
+e <- rgamma(m, shape=beta, rate=lambda)
 y <- f + e
 
 # DWT
 d <- wd(y, filter.number=5, family='DaubExPhase')
-theta_true <- wd(f, filter.number=5, family='DaubExPhase') |> (\(x) c(accessC(x, lev=0), x$D))()
+theta_true <- wd(f, filter.number=5, family='DaubExPhase') |>
+  (\(x) c(accessC(x, lev=0), x$D))()
 
 # RAM
-theta_1 <- gera_ponto(n, y)  # chute inicial
-post_gamma(theta_1, d, beta, lambda, tau=5)
+theta_1 <- gera_ponto(y)  # chute inicial
+post_gamma(theta_1, d, beta, lambda, tau, alpha)
 
 sample <- ram(theta_1, S_1=NULL, y, tau=5, alpha, beta, lambda, n_ite=30000)
 
-kable(data.frame('theta_i'=1:n, 'theta_true'=theta_true,
+kable(data.frame('theta_i'=1:m, 'theta_true'=theta_true,
                  'RAM'=colMeans(sample$theta)))
 ``` 
 
 
-```{r, eval=F}
-set.seed(282829)
+# Cenário de Dados Funcionais
+Considere o modelo
+$$\boldsymbol A = \boldsymbol\alpha \boldsymbol y + \boldsymbol e$$
+Além disso, considere a amostra comporta por $L = 2$ funções componentes, sendo elas a Bumps e a Doppler, medidas em $M = 16$ pontos diferentes, e $I = 4$ observaçãoes. Então, nossa amotra consiste em $\{(t_m, A_i(t_m)), \; i=1,\dots,4 \;,\; m=1,\dots,16\}$. Ademais, será denotado $\boldsymbol f = \boldsymbol\alpha \boldsymbol y$
+
+
+```{r}
+set.seed(282)
 
 # definindo parâmetros
-M <- 16  # quantidade de pontos por função
-I <- 2   # tamanho da amostra
-n_ite <- 100
-beta <- 10; lambda <- 5  # parâmetros do erro Gamma
-alpha <- 0.8
+M <- 16                  # quantidade de pontos por função
+I <- 4                   # tamanho da amostra
+n_ite <- 100             # número de iterações
+beta <- 49; lambda <- 5  # parâmetros do erro Gamma
+alpha <- 0.8             # parâmetro da priori spike and slab
+tau <- 5                 # parâmetro da logística
+n_ite <- 20000           # número de iterações
 
+# funções componentes: Bumps e Doppler
 fun_comp <- matrix(c(f_test(M)$bumps, f_test(M)$doppler), 2, byrow=T)
+alpha_comp <- t(fun_comp)  # matriz alpha com as funções componentes
 
-#plotando funções
 par(mfrow=c(1,2))
-plot(fun_comp[1,], type='l', ylab='', main='Bumps')
-plot(fun_comp[2,], type='l', ylab='', main='Doppler')
+plot(fun_comp[1,], type='b', ylab='', main='Bumps')
+plot(fun_comp[2,], type='b', ylab='', main='Doppler')
 par(mfrow=c(1,1))
 
 # gerando amostra
-sample <- sample_gen(fun_comp, n=I, beta=beta, lambda=lambda, erro='gamma')
+y1 <- runif(I)                               # pesos da curva 1 (bumps)
+y <- matrix(c(y1, 1 - y1), nrow=2, byrow=T)  # pesos
+f <- alpha_comp %*% y                        # combinação das fç's verdadeiras
+e <- matrix(rgamma(M * I, shape=beta, rate=lambda), nrow=M, ncol=I, byrow=T)
+A <- f + e
 
 # plot da amostra
-plot(x=(1:M)/M, y=NULL, type='n', xlim=c(0,1), ylim=c(-10, 30))
-for (i in 1:I) lines(x=(1:M)/M, sample$fun[i,], type='b', col=i)
+plot(x=(1:M)/M, y=NULL, type='n', xlim=c(0,1), ylim=c(-4, 36), ylab='')
+for (i in 1:I) lines(x=(1:M)/M, A[,i], type='b', col=i)
+
+par(mfrow=c(2,2))
+for (i in 1:I) {  # Azul: curva observada, Preto: Curva real
+  plot(x=(1:M)/M, y=NULL, ylim=c(min(f[,i], A[,i]), max(f[,i], A[,i])),
+       ylab='', xlab='', main=paste('Obs.', i), type='n')
+  lines(f[,i], type='b')
+  lines(A[,i], type='b', col='blue')
+}
+par(mfrow=c(1,1))
+
+
+# DWT
+D <- apply(A, MARGIN=2, \(x) {  # mesmo que WA
+  wd(x, filter.number=5, family='DaubExPhase')
+  # c(accessC(d, lev=0), d$D)
+})
+
+Gamma_true <- apply(alpha_comp, MARGIN=2, \(x) {
+  d <- wd(x, filter.number=5, family='DaubExPhase')
+  c(accessC(d, lev=0), d$D)
+})
+
+Theta_true <- apply(f, MARGIN=2, \(x) {
+  d <- wd(x, filter.number=5, family='DaubExPhase')
+  c(accessC(d, lev=0), d$D)
+})
+
+# delta(D)
+d1 <- D[[1]]
+
+theta_1 <- gera_ponto(d=d1, lim_sup=3)
+post_gamma(theta_1, d=d1, beta, lambda, tau, alpha, filter.number=5,
+           family='DaubExPhase')
+post_gamma(c(33.97792, 2.313542, -5.262927, -13.92567, 0.003038115, 1.204831, -3.835913, 2.171375, -1.997785, 0.344805, -2.323209, 9.863861, -7.79616, 0.7252064, 0.7353599, -1.577788), d=d1, beta, lambda, tau, alpha, filter.number=5,
+           family='DaubExPhase')
+
+# implementando RAM
+# theta_1 chute inicial para theta.
+# S_1 chute inicial para S.
+# d coeficientes empíricos de ondaleta.
+# n_ite número de iterações.
+# alpha coeficiente de mistura da priori spike and slab.
+# tau coeficiente da distribuição logística da priori.
+# beta,lambda parâmetros da distribuição do erro \eqn{Gamma(\beta, \lambda)}.
+# gamma taxa alvo de aceitação (confirmar)
+
+ram <- function(theta_1, S_1, d, n_ite, alpha=0.8, tau=2, beta, lambda,
+                gamma = 2/3, filter.number=5, family='DaubExPhase') {
+  # verificando ponto inicial
+  if (post_gamma(theta_1, d, beta, tau, lambda, alpha) == 0)
+    stop('Ponto inicial inválido, forneça um ponto com densidade maior que 0.')
+  
+  M <- length(theta_1)  # quantidade de pontos por função
+  
+  # criando objetos
+  theta <- matrix(0, nrow=n_ite, ncol=M)    # matriz contendo amostra de theta
+  eta <- seq(1, n_ite)^(-gamma)             # parâmetro do algorítimo RAM
+  S_l <- vector(mode='list', length=n_ite)  # lista para armazenar S_l
+  gamma_l <- vector(mode='numeric', n_ite - 1)  # vetor para armazenar gamma_l
+  
+  # chutes iniciais
+  theta[1,] <- theta_1
+  S_l[[1]] <- S_1
+  
+  for (i in 2:n_ite) { if (i %% 10000 == 0) message(i)
+    # proposta
+    U_l <- t(rmvnorm(1, rep(0, n), diag(n)))
+    theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
+    
+    # taxa de aceitação
+    gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, tau, lambda, alpha)/
+                          post_gamma(theta[i-1,], d, beta, tau, lambda, alpha))
+    
+    cat('\ni =', i, '---------------\n',
+        'theta_star: ', t(theta_star),
+        '\npi =', post_gamma(theta_star, d, beta, tau, lambda, alpha))
+    
+    if (rbinom(1, 1, gamma_l[i-1]) == 1) theta[i,] <- theta_star
+    else theta[i,] <- theta[i-1,]
+    
+    # atualizando S_l
+    A <- S_l[[i-1]] %*% (diag(n) + eta[i]*(gamma_l[i-1] - gamma) *
+                           U_l %*% t(U_l) / as.vector(t(U_l) %*% U_l)) %*% t(S_l[[i-1]])
+    S_l[[i]] <- t(chol(A))
+  }
+  
+  return(list('theta'=theta, 'S'=S_l, 'gamma_l'=gamma_l,
+              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau, 'beta'=beta,
+                             'lambda'=lambda, 'gamma'=gamma,
+                             'filter.number'=filter.number, 'family'=family)
+  ))
+}
+
+ram(theta_1, S_1=diag(M), d1, n_ite=5000, alpha,tau,beta,lambda)
+
+
 
 # aplicando RAM para coluna 1
 theta_1 <- gera_ponto(M, fun_comp[1,])       # chute inicial

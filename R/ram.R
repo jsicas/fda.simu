@@ -5,16 +5,17 @@
 #'
 #' @export
 
-ram <- function(theta_1 = NULL, S_1 = NULL, y, alpha=0.8, tau=2,
-                beta, lambda, n_ite = 50000, gamma = 2/3,
-                filter.number=5, family='DaubExPhase') {
+ram <- function(theta_1 = NULL, S_1 = NULL, f, alpha=0.8, tau=2,
+                      beta, lambda, n_ite = 50000, gamma = 2/3,
+                      filter.number=5, family='DaubExPhase') {
   # criando objetos
-  n <- length(y)                  # quantidade de pontos por função
+  n <- length(f)                  # quantidade de pontos por função
   theta <- matrix(0, n_ite, n)    # matriz contendo amostra de theta
   S_l <- vector(mode='list', length=n_ite)      # lista para armazenar S_l
   gamma_l <- vector(mode='numeric', n_ite - 1)  # vetor para armazenar gamma_l
 
   # gerando amostra
+  y <- f + rgamma(n, shape=beta, rate=lambda)  # gerando valores observados
   dwt <- wd(y, filter.number=filter.number, family=family)  # coeficientes empíricos
 
   # definindo alguns parâmetors
@@ -43,8 +44,8 @@ ram <- function(theta_1 = NULL, S_1 = NULL, y, alpha=0.8, tau=2,
   }
 
   return(list('theta'=theta, 'S'=S_l, 'gamma_l'=gamma_l,
-              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau,
-                             'beta'=beta, 'lambda'=lambda, 'gamma'=gamma,
+              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau, 'beta'=beta,
+                             'lambda'=lambda, 'gamma'=gamma,
                              'filter.number'=filter.number, 'family'=family)
   ))
 }

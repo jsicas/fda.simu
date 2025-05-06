@@ -4,7 +4,16 @@
 \alias{sample_gen}
 \title{Gera uma Amostra de Dados Funcionais}
 \usage{
-sample_gen(fun_comp, snr, n=10, stand=T, signal=7)
+sample_gen(
+  fun_comp,
+  snr,
+  n = 10,
+  signal = 7,
+  beta,
+  lambda,
+  erro = "normal",
+  stand = FALSE
+)
 }
 \arguments{
 \item{fun_comp}{objeto com as \eqn{L} funções componentes, onde cada linha é uma
@@ -14,27 +23,29 @@ função.}
 
 \item{n}{tamanho da amostra gerada.}
 
-\item{stand}{Se FALSE (default) as funções componentes não são padronizada para
-terem razão sinal-ruído igual a \code{signal}.}
-
 \item{signal}{desvio padrão dos dados após padronização.}
 
 \item{beta, lambda}{Parâmetros para erro \eqn{Gamma(\beta, \lambda)}.}
 
-\item{erro}{tipo de erro, podendo ser 'normal' ou 'gamma'.}
+\item{erro}{tipo de erro, podendo ser "normal" ou "gamma".}
+
+\item{stand}{Se FALSE (default) as funções componentes não são padronizada para
+terem razão sinal-ruído igual a \code{signal}.}
 }
 \value{
-Retorna uma \code{lista} contendo dois elementos: \code{fun}, onde cada linha é
-um elemento da amostra gerada, e \code{y}, os quais são os pesos utilizados.
+Retorna uma \code{lista} contendo dois elementos: \code{fun}, onde cada linha
+é um elemento da amostra gerada, e \code{y}, os quais são os pesos
+utilizados.
 }
 \description{
-Esta função gera uma amostra de dados funcionais agregados baseado na entrada das
-funções componentes, razão sinal-ruído e tamanho da amostra.
+Esta função gera uma amostra de dados funcionais agregados baseado na entrada
+das funções componentes, razão sinal-ruído e tamanho da amostra.
 }
 \examples{
 bumps <- f_test()$bumps; doppler <- f_test()$doppler
 par(mfrow=c(2,1))
-plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
+plot(bumps, type='l', main='Bumps')
+plot(doppler, type='l', main='Doppler')
 par(mfrow=c(1,1))
 
 fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)

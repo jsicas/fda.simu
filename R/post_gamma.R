@@ -57,7 +57,8 @@
 
 post_gamma <- function(theta, d, beta, lambda, tau, alpha=0.8, filter.number=5,
                        family='DaubExPhase') {
-  d_emp <- c(accessC(d, lev=0), d$D)
+  if (class(d) == 'wd') d_emp <- c(accessC(d, lev=0), d$D)
+  else d_emp <- d
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
   wdt_i <- t(W) %*% as.vector((d_emp - theta))  # conferir esse passo
   if (all(wdt_i > 0)) {
