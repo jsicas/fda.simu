@@ -1,0 +1,2 @@
+R/sample_gen.R
+  - Arrumar parâmetro erro. Não está funcional

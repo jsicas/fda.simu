@@ -45,15 +45,17 @@ post_gamma(theta_1, d, beta, lambda, tau, alpha)
 
 sample <- ram(theta_1, S_1=NULL, y, tau=5, alpha, beta, lambda, n_ite=30000)
 
+sample_burnin_thinning <- sample$theta[seq(5000, 30000, 10),]
+
 kable(data.frame('theta_i'=1:m, 'theta_true'=theta_true,
-                 'RAM'=colMeans(sample$theta)))
+                 'RAM'=colMeans(sample_burnin_thinning)))
 ``` 
 
 
 # Cenário de Dados Funcionais
 Considere o modelo
 $$\boldsymbol A = \boldsymbol\alpha \boldsymbol y + \boldsymbol e$$
-Além disso, considere a amostra comporta por $L = 2$ funções componentes, sendo elas a Bumps e a Doppler, medidas em $M = 16$ pontos diferentes, e $I = 4$ observaçãoes. Então, nossa amotra consiste em $\{(t_m, A_i(t_m)), \; i=1,\dots,4 \;,\; m=1,\dots,16\}$. Ademais, será denotado $\boldsymbol f = \boldsymbol\alpha \boldsymbol y$
+Além disso, considere a amostra comporta por $L = 2$ funções componentes, sendo elas a Bumps e a Doppler, medidas em $M = 16$ pontos diferentes, e $I = 4$ observaçãoes. Então, nossa amotra consiste em $\{(t_m, A_i(t_m)), \; i=1,\dots,4 \;,\; m=1,\dots,16\}$, com erro gamma. Ademais, será denotado no código $\boldsymbol f = \boldsymbol\alpha \boldsymbol y$. Então, gerando uma amostra temos:
 
 
 ```{r}
@@ -62,11 +64,10 @@ set.seed(282)
 # definindo parâmetros
 M <- 16                  # quantidade de pontos por função
 I <- 4                   # tamanho da amostra
-n_ite <- 100             # número de iterações
 beta <- 49; lambda <- 5  # parâmetros do erro Gamma
-alpha <- 0.8             # parâmetro da priori spike and slab
-tau <- 5                 # parâmetro da logística
-n_ite <- 20000           # número de iterações
+# tau <- 5                 # parâmetro da logística
+# n_ite <- 20000           # número de iterações
+# alpha <- 0.8             # parâmetro da priori spike and slab
 
 # funções componentes: Bumps e Doppler
 fun_comp <- matrix(c(f_test(M)$bumps, f_test(M)$doppler), 2, byrow=T)
