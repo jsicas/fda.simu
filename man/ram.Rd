@@ -7,7 +7,7 @@
 ram(
   theta_1 = NULL,
   S_1 = NULL,
-  y,
+  f,
   alpha = 0.8,
   tau = 2,
   beta,

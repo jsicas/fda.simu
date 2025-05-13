@@ -17,7 +17,8 @@ Imports:
   wavethresh,
   future,
   furrr,
-  purrr
+  purrr,
+  mvtnorm
 Suggests:
     knitr,
     rmarkdown,
