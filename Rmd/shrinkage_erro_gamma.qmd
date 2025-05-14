@@ -205,7 +205,7 @@ post_gamma(theta_teste, d1, beta, lambda, tau, alpha, filter.number=5,
 
 
 Aplicando $\delta(\boldsymbol D) = \begin{bmatrix} \delta(\boldsymbol{d}_1) & \dots & \delta(\boldsymbol{d}_I)\end{bmatrix}$, contudo, como a posteriori não tem forma fechada vamos ter que usar o algorítimo RAM para amostrar da distribuição. Então vamos fazer a função `ram_manual`
-```{r ram_com_dados_agregados}
+```{r ram_com_dados_agregados, message=F}
 # implementando ram_manual --------------------------------------------
 #' @param theta_1 chute inicial para theta.
 #' @param S_1 chute inicial para S.
@@ -262,7 +262,7 @@ ram_manual <- function(theta_1, S_1, d, n_ite, alpha=0.8, tau=2, beta, lambda,
 
 # Determinando delta(D) -----------------------------------------------
 # parâmetros da simulação 
-n_ite <- 20000  # número de iterações
+n_ite <- 50000  # número de iterações
 plan(multisession, workers = 4)  # cada núcleo faz uma obs para I = 4
 
 delta_D <- foreach(i = 1:I, .options.future = list(seed = TRUE),
@@ -289,6 +289,17 @@ colnames(alpha_hat) <- c('bumps_est', 'doppler_est')
 # Resultados ----------------------------------------------------------
 kable(data.frame('theta_i'=1:m, 'bumps'=alpha_true[,1], 'bumps_est'=alpha_hat[,1],
                  'doppler'=alpha_true[,2], 'doppler_est'=alpha_hat[,2]))
+
+par(mfrow=c(1,2))
+plot(alpha_true[,1], type='b', main='Bumps', ylab='',
+     ylim=c(min(alpha_true[,1]), max(alpha_hat[,1])))
+lines(alpha_hat[,1], type='b', col='blue')
+legend('topright', legend=c('Curva real', 'Cruva recuperada'),
+       col=c('black', 'blue'), bty='n', lwd=1, cex=0.6)
+plot(alpha_true[,2], type='b', main='Bumps', ylim=c(min(alpha_true[,2]), max(alpha_hat[,2])))
+lines(alpha_hat[,2], type='b', col='blue')
+legend('bottomright', legend=c('Curva real', 'Cruva recuperada'),
+       col=c('black', 'blue'), bty='n', lwd=1, cex=0.6)
 ```
 
 
