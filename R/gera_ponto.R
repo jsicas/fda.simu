@@ -29,7 +29,7 @@ gera_ponto <- function(a = NULL, d, lim_sup = 20, filter.number = 5,
   W <- t(GenW(M, filter.number, family))
   if (is.null(a)) a <- runif(M, 0.01, lim_sup)
   d_emp <- c(accessC(d, lev=0), d$D)  # coeficientes empíricos
-  return(d_emp - W %*% a)  # theta
+  return(as.vector(d_emp - W %*% a))  # theta
 }
 
 

@@ -99,9 +99,9 @@ set.seed(282)
 
 # gerando amostra -----------------------------------------------------
 # parâmetros da amostra
-M <- 16                     # quantidade de pontos por função
-I <- 4                      # tamanho da amostra
-beta <- 196/25; lambda <- 2 # parâmetros do erro Gamma(beta, lambda)
+M <- 16                      # quantidade de pontos por função
+I <- 4                       # tamanho da amostra
+beta <- 196/25; lambda <- 2  # parâmetros do erro Gamma(beta, lambda)
 
 # funções componentes: Bumps e Doppler
 fun_comp <- matrix(c(f_test(M)$bumps, f_test(M)$doppler), 2, byrow=T)

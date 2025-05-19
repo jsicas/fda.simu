@@ -5,8 +5,7 @@
 #'
 #' @export
 #'
-#' @param theta_1 Chute inicial para \eqn{\theta}. Se não for definido, será
-#'   gerado um ponto aleatório baseado na função [gera_ponto].
+#' @param theta_1 Chute inicial para \eqn{\theta}.
 #' @param S_1 Chute inicial para a matriz S. Se não for definida será utilziado
 #'   a matriz identidaide.
 #' @param d coeficientes empíricos de ondaleta. Objeto da classe `wd`, ver
@@ -27,32 +26,37 @@
 #' Statistical Computation and Simulation}. DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 #'
-#' @examples
+#' @example examples/ram_gamma_exam.R
 
-ram_gamma <- function(theta_1 = NULL, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
+ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
                       tau = 2, beta, lambda, gamma = 2/3,
                       filter.number = 5, family = 'DaubExPhase') {
+  # verificando ponto inicial detheta
+  if (post_gamma(theta_1, d, beta, tau, lambda, alpha) == 0)
+    stop('Ponto inicial inválido, forneça um ponto com densidade maior que 0.')
+
   # criando objetos
-  M <- length(f)                  # quantidade de pontos por função
+  M <- 2^nlevelsWT(d)                  # quantidade de pontos por função
   theta <- matrix(0, n_ite, M)    # matriz contendo amostra de theta
   S_l <- vector(mode='list', length=n_ite)      # lista para armazenar S_l
   gamma_l <- vector(mode='numeric', n_ite - 1)  # vetor para armazenar gamma_l
   eta <- seq(1, n_ite)^(-gamma)    # parâmetro do algorítimo RAM
 
-  # definindo alguns parâmetors
+  # armazenando chute inicial
+  if (is.null(S_1)) S_1 <- diag(M)  # chute inicial se S não definido
   theta[1,] <- theta_1              # chute inicial
   S_l[[1]] <- S_1                   # chute inicial
-  if (is.null(S_1)) S_1 <- diag(M)  # chute inicial se S não definido
-  if (is.null(theta_1)) theta_1 <- gera_ponto(a = NULL, d)  # chute inicial se theta_1 não definido
 
-  for (i in 2:n_ite) {if (i %% 10000 == 0) message(i)
+  for (i in 2:n_ite) {
     # proposta
     U_l <- t(rmvnorm(1, rep(0, M), diag(M)))
     theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
 
     # taxa de aceitação
-    gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, tau, lambda, alpha)/
-                          post_gamma(theta[i-1,], d, beta, tau, lambda, alpha))
+    gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, tau, lambda, alpha,
+                                      filter.number, family)/
+                          post_gamma(theta[i-1,], d, beta, tau, lambda, alpha,
+                                     filter.number, family))
 
     if (rbinom(1, 1, gamma_l[i-1]) == 1) theta[i,] <- theta_star
     else theta[i,] <- theta[i-1,]

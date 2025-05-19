@@ -3,4 +3,4 @@ R/sample_gen.R
   - Integrar com a função ram_gamma
 
 R/ram_gamma.R
-  - Adicionar exemplo
+  - arrumar exemplo
