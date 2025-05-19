@@ -5,15 +5,16 @@
 \title{Gera um Ponto no Suprote da Posteriori com Erro Gamma}
 \usage{
 gera_ponto(
-  y = NULL,
-  d = NULL,
+  a = NULL,
+  d,
   lim_sup = 20,
   filter.number = 5,
   family = "DaubExPhase"
 )
 }
 \arguments{
-\item{y}{Valores observados.}
+\item{a}{vetor com todas as entradas positivas. Se \code{NULL} é gerado
+aleatóriamente.}
 
 \item{d}{Coeficientes empíricos de ondaletas.}
 
@@ -32,12 +33,14 @@ wavelets.
 }
 }
 \description{
-Gera um ponto no domínio do tempo da função original garantindo que esta
-dentro do suporte da posteriori com erro Gamma, ver \code{\link[=post_gamma]{post_gamma()}}.
+Gera um ponto no domínio do tempo da função original garantindo
+que esta dentro do suporte da posteriori com erro Gamma, ver função
+\link{post_gamma}.
 }
 \examples{
+# library(wavethresh)
 y <- c(1,2,7,2,5,6,0,3)  # valores observados
 d <- wd(y, filter.number = 5, family = 'DaubExPhase')
-(theta <- gera_ponto(y))
+(theta <- gera_ponto(a = NULL, d))
 post_gamma(theta, d, beta = 5, lambda = 1, tau = 4, alpha = 0.7)  # posteriori
 }

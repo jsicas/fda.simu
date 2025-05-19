@@ -7,12 +7,12 @@
 ram_gamma(
   theta_1 = NULL,
   S_1 = NULL,
-  f,
+  d,
+  n_ite = 50000,
   alpha = 0.8,
   tau = 2,
   beta,
   lambda,
-  n_ite = 50000,
   gamma = 2/3,
   filter.number = 5,
   family = "DaubExPhase"
@@ -20,20 +20,21 @@ ram_gamma(
 }
 \arguments{
 \item{theta_1}{Chute inicial para \eqn{\theta}. Se não for definido, será
-gerado um ponto aleatório baseado na função \code{gera_ponto}.}
+gerado um ponto aleatório baseado na função \link{gera_ponto}.}
 
 \item{S_1}{Chute inicial para a matriz S. Se não for definida será utilziado
-a identidaide.}
+a matriz identidaide.}
 
-\item{f}{Valores verdadeiros.}
+\item{d}{coeficientes empíricos de ondaleta. Objeto da classe \code{wd}, ver
+função \link[wavethresh:wd]{wavethresh::wd}.}
+
+\item{n_ite}{número de iterações.}
 
 \item{alpha}{Parâmetro da mistura da priori spike and slab utilizada.}
 
 \item{tau}{Parâmetro da logística presente na priori.}
 
 \item{beta, lambda}{parâmetros do erro \eqn{Gamma(\beta, \lambda)}.}
-
-\item{n_ite}{número de iterações.}
 
 \item{gamma}{Parâmetro do algorítimo RAM.}
 
@@ -57,8 +58,8 @@ sample <- ram_gamma(f = f_test(n = 8)$bumps, beta = 10, lambda = 30, n_ite = 300
 colMeans(sample$theta)
 }
 \references{
-Vihola, M. (2012). Robust adaptive Metropolis algorithm with coerced
-acceptance rate. Stat Comput 22, 997–1008. DOI:
+Vihola, M. (2012). Robust adaptive Metropolis algorithm with
+coerced acceptance rate. Stat Comput 22, 997–1008. DOI:
 \href{https://doi.org/10.1007/s11222-011-9269-5}{10.1007/s11222-011-9269-5}.
 
 Sousa, A.R.S., Garcia, N.L. (2023). Wavelet shrinkage in
