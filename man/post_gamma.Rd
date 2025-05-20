@@ -12,7 +12,8 @@ post_gamma(
   tau,
   alpha = 0.8,
   filter.number = 5,
-  family = "DaubExPhase"
+  family = "DaubExPhase",
+  suppressMessage = T
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ This argument is ignored for the ``wavelets on the interval'' transform (\code{b
 Note that, as of version 4.6.1 you can use the Lina-Mayrand complex-valued
 wavelets.
 }
+
+\item{suppressMessage}{Se \code{TRUE} (default) suprime a mensagem "Fora do
+suporte." caso o ponto \code{theta} esteja fora do domínio,}
 }
 \description{
 Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma
@@ -60,9 +64,9 @@ independentes, tem-se:
 \displaystyle\pi(\boldsymbol\theta; \alpha, \tau) = \prod_{i=1}^n[\alpha
 \delta_0(\theta_i) + (1 - \alpha) g(\theta_i; \tau)]
 }
-onde \eqn{\alpha \in (0,1)}, \eqn{\delta_0} é o delta de Dirac com massa em 0
-e \eqn{g(\theta; \tau)} é a função densidade de probabilidade logística, dada
-por
+onde \eqn{\alpha \in (0,1)}, \eqn{\delta_0} é o delta de Dirac com massa em
+0 e \eqn{g(\theta; \tau)} é a função densidade de probabilidade logística,
+dada por
 \deqn{
 g(\theta_i; \tau) = \dfrac{\exp\left\{-\frac{\theta}{\tau}\right\}}{\tau
 \left( 1 + \exp\left\{-\frac{\theta}{\tau}\right\} \right)^2} \;

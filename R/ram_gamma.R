@@ -28,6 +28,7 @@
 #'
 #' @example examples/ram_gamma_exam.R
 
+
 ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
                       tau = 2, beta, lambda, gamma = 2/3,
                       filter.number = 5, family = 'DaubExPhase') {

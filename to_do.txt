@@ -1,6 +1,3 @@
 R/sample_gen.R
   - Arrumar parâmetro erro. Não está funcional
   - Integrar com a função ram_gamma
-
-R/ram_gamma.R
-  - arrumar exemplo
