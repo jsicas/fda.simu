@@ -29,12 +29,11 @@
 #'
 #' @example examples/ram_gamma_exam.R
 
-
 ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
                       tau = 2, beta, lambda, gamma = 2/3,
                       filter.number = 5, family = 'DaubExPhase') {
   # verificando ponto inicial detheta
-  if (post_gamma(theta_1, d, beta, tau, lambda, alpha) == 0)
+  if (post_gamma(theta_1, d, beta, lambda, tau, alpha, filter.number, family) == 0)
     stop('Ponto inicial inválido, forneça um ponto com densidade maior que 0.')
 
   # criando objetos
@@ -55,9 +54,9 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
     theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
 
     # taxa de aceitação
-    gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, tau, lambda, alpha,
-                                      filter.number, family)/
-                          post_gamma(theta[i-1,], d, beta, tau, lambda, alpha,
+    gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, lambda, tau, alpha,
+                                        filter.number, family)/
+                          post_gamma(theta[i-1,], d, beta, lambda, tau, alpha,
                                      filter.number, family))
 
     if (rbinom(1, 1, gamma_l[i-1]) == 1) theta[i,] <- theta_star

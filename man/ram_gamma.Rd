@@ -35,7 +35,8 @@ função \link[wavethresh:wd]{wavethresh::wd}.}
 
 \item{beta, lambda}{parâmetros do erro \eqn{Gamma(\beta, \lambda)}.}
 
-\item{gamma}{Parâmetro do algorítimo RAM.}
+\item{gamma}{Parâmetro do algorítimo RAM. Por padrão, utiliza-se
+\eqn{\frac{2}{3}}.}
 
 \item{filter.number}{This selects the smoothness of wavelet that you want to use in the decomposition. By default this is 10, the Daubechies least-asymmetric orthonormal compactly supported wavelet with 10 vanishing moments. 
 

@@ -58,7 +58,7 @@
 #'   [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
 post_gamma <- function(theta, d, beta, lambda, tau, alpha=0.8, filter.number=5,
-                       family='DaubExPhase', suppressMessage = T) {
+                       family='DaubExPhase', suppressMessage=T) {
   if (class(d) == 'wd') d_emp <- c(accessC(d, lev=0), d$D)
   else d_emp <- d
   W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
