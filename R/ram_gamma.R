@@ -14,17 +14,18 @@
 #' @param tau Parâmetro da logística presente na priori.
 #' @param beta,lambda parâmetros do erro \eqn{Gamma(\beta, \lambda)}.
 #' @param n_ite número de iterações.
-#' @param gamma Parâmetro do algorítimo RAM.
+#' @param gamma Parâmetro do algorítimo RAM. Por padrão, utiliza-se
+#'   \eqn{\frac{2}{3}}.
 #' @inheritParams wavethresh::wd
 #'
 #' @references Vihola, M. (2012). Robust adaptive Metropolis algorithm with
-#' coerced acceptance rate. Stat Comput 22, 997–1008. DOI:
-#' [10.1007/s11222-011-9269-5](https://doi.org/10.1007/s11222-011-9269-5).
+#'   coerced acceptance rate. Stat Comput 22, 997–1008. DOI:
+#'   [10.1007/s11222-011-9269-5](https://doi.org/10.1007/s11222-011-9269-5).
 #'
-#' Sousa, A.R.S., Garcia, N.L. (2023). Wavelet shrinkage in
+#'   Sousa, A.R.S., Garcia, N.L. (2023). Wavelet shrinkage in
 #' nonparametric regression models with positive noise. \emph{Journal of
 #' Statistical Computation and Simulation}. DOI:
-#' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
+#'   [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 #'
 #' @example examples/ram_gamma_exam.R
 
