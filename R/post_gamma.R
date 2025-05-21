@@ -65,7 +65,7 @@ post_gamma <- function(theta, d, beta, lambda, tau, alpha=0.8, filter.number=5,
   if (class(d) == 'wd') d_emp <- c(accessC(d, lev=0), d$D)
   else d_emp <- d
   if (is.null(W)) W <- t(GenW(n=length(theta), filter.number, family))
-  wdt_i <- t(W) %*% as.vector((d_emp - theta))  # conferir esse passo
+  wdt_i <- t(W) %*% as.vector((d_emp - theta))
   if (all(wdt_i > 0)) {
     return(prod(ifelse(theta == 0, alpha, 0) + (1 - alpha) * dlogis(theta, scale=tau)) *
              exp(-lambda * sum(wdt_i)) * (prod(wdt_i))^(beta - 1))

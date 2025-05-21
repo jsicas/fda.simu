@@ -1,6 +1,3 @@
 R/sample_gen.R
   - Arrumar parâmetro erro. Não está funcional
   - Integrar com a função ram_gamma
-
-R/post_gamma.R
-  - Função apresenta problemas de performance. O gargalo está na linha com o comando GenW. Implementar modo de alto desempenho, o qual já deixará a matriz W armazenada.

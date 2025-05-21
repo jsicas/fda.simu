@@ -52,7 +52,7 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
 
   for (i in 2:n_ite) {
     # proposta
-    U_l <- t(rmvnorm(1, rep(0, M), diag(M)))
+    U_l <- matrix(rnorm(M))
     theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
 
     # taxa de aceitação
