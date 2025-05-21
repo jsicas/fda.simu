@@ -11,7 +11,10 @@
 #' @param alpha coeficiente da spike and slab (0.8 é o valor padrão).
 #' @inheritParams wavethresh::wd
 #' @param suppressMessage Se `TRUE` (default) suprime a mensagem "Fora do
-#'   suporte." caso o ponto `theta` esteja fora do domínio,
+#'   suporte." caso o ponto `theta` esteja fora do domínio.
+#' @param W Matriz que carrega a DWT. Por padrão ela é gerada dentro da função,
+#'   contudo, para uma simulação é interessante gerá-la previamente para
+#'   melhorar o desemepenho.
 #'
 #' @details Partindo do modelo vetorial no dominio do tempo
 #' \deqn{
@@ -58,10 +61,10 @@
 #'   [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 
 post_gamma <- function(theta, d, beta, lambda, tau, alpha=0.8, filter.number=5,
-                       family='DaubExPhase', suppressMessage=T) {
+                       family='DaubExPhase', W=NULL, suppressMessage=T) {
   if (class(d) == 'wd') d_emp <- c(accessC(d, lev=0), d$D)
   else d_emp <- d
-  W <- t(GenW(n=length(theta), filter.number=filter.number, family=family))
+  if (is.null(W)) W <- t(GenW(n=length(theta), filter.number, family))
   wdt_i <- t(W) %*% as.vector((d_emp - theta))  # conferir esse passo
   if (all(wdt_i > 0)) {
     return(prod(ifelse(theta == 0, alpha, 0) + (1 - alpha) * dlogis(theta, scale=tau)) *

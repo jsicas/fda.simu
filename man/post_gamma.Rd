@@ -13,6 +13,7 @@ post_gamma(
   alpha = 0.8,
   filter.number = 5,
   family = "DaubExPhase",
+  W = NULL,
   suppressMessage = T
 )
 }
@@ -39,8 +40,12 @@ Note that, as of version 4.6.1 you can use the Lina-Mayrand complex-valued
 wavelets.
 }
 
+\item{W}{Matriz que carrega a DWT. Por padrão ela é gerada dentro da função,
+contudo, para uma simulação é interessante gerá-la previamente para
+melhorar o desemepenho.}
+
 \item{suppressMessage}{Se \code{TRUE} (default) suprime a mensagem "Fora do
-suporte." caso o ponto \code{theta} esteja fora do domínio,}
+suporte." caso o ponto \code{theta} esteja fora do domínio.}
 }
 \description{
 Posteriori dos Coeficientes de Ondaletas Considerando Erro Gamma
