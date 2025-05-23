@@ -38,12 +38,13 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
     stop('Ponto inicial inválido, forneça um ponto com densidade maior que 0.')
 
   # criando objetos
-  M <- 2^nlevelsWT(d)             # quantidade de pontos por função
-  theta <- matrix(0, n_ite, M)    # matriz contendo amostra de theta
+  M <- 2^nlevelsWT(d)            # quantidade de pontos por função
+  theta <- matrix(0, n_ite, M)   # matriz contendo amostra de theta
   S_l <- vector(mode='list', length=n_ite)      # lista para armazenar S_l
   gamma_l <- vector(mode='numeric', n_ite - 1)  # vetor para armazenar gamma_l
-  eta <- seq(1, n_ite)^(-gamma)    # parâmetro do algorítimo RAM
+  eta <- seq(1, n_ite)^(-gamma)  # parâmetro do algorítimo RAM
   W <- t(GenW(M, filter.number, family))
+  theta_mudou <- TRUE            # indica quando theta muda
 
   # armazenando chute inicial
   if (is.null(S_1)) S_1 <- diag(M)  # chute inicial se S não definido
@@ -55,14 +56,22 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
     U_l <- matrix(rnorm(M))
     theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
 
+    if (theta_mudou == TRUE) {
+      den <- post_gamma(theta[i-1,], d, beta, lambda, tau, alpha,
+                        filter.number, family, W)
+      theta_mudou <- FALSE
+    }
+
     # taxa de aceitação
     gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, lambda, tau, alpha,
-                                        filter.number, family, W)/
-                          post_gamma(theta[i-1,], d, beta, lambda, tau, alpha,
-                                     filter.number, family, W))
+                                        filter.number, family, W)/den)
 
-    if (rbinom(1, 1, gamma_l[i-1]) == 1) theta[i,] <- theta_star
-    else theta[i,] <- theta[i-1,]
+    if (rbinom(1, 1, gamma_l[i-1]) == 1) {
+      theta[i,] <- theta_star
+      theta_mudou <- TRUE
+    } else {
+      theta[i,] <- theta[i-1,]
+    }
 
     # atualizando S_l
     A <- S_l[[i-1]] %*% (diag(M) + eta[i]*(gamma_l[i-1] - gamma) *
