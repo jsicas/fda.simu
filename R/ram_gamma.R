@@ -40,7 +40,6 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
   # criando objetos
   M <- 2^nlevelsWT(d)            # quantidade de pontos por função
   theta <- matrix(0, n_ite, M)   # matriz contendo amostra de theta
-  S_l <- vector(mode='list', length=n_ite)      # lista para armazenar S_l
   gamma_l <- vector(mode='numeric', n_ite - 1)  # vetor para armazenar gamma_l
   eta <- seq(1, n_ite)^(-gamma)  # parâmetro do algorítimo RAM
   W <- t(GenW(M, filter.number, family))
@@ -49,12 +48,12 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
   # armazenando chute inicial
   if (is.null(S_1)) S_1 <- diag(M)  # chute inicial se S não definido
   theta[1,] <- theta_1              # chute inicial
-  S_l[[1]] <- S_1                   # chute inicial
+  S_l <- S_1                        # chute inicial
 
   for (i in 2:n_ite) {
     # proposta
     U_l <- matrix(rnorm(M))
-    theta_star <- t(theta[i-1,] + S_l[[i-1]] %*% U_l)
+    theta_star <- t(theta[i-1,] + S_l %*% U_l)
 
     if (theta_mudou == TRUE) {
       den <- post_gamma(theta[i-1,], d, beta, lambda, tau, alpha,
@@ -74,12 +73,12 @@ ram_gamma <- function(theta_1, S_1 = NULL, d, n_ite = 50000, alpha = 0.8,
     }
 
     # atualizando S_l
-    A <- S_l[[i-1]] %*% (diag(M) + eta[i]*(gamma_l[i-1] - gamma) *
-                           U_l %*% t(U_l) / as.vector(t(U_l) %*% U_l)) %*% t(S_l[[i-1]])
-    S_l[[i]] <- t(chol(A))
+    A <- S_l %*% (diag(M) + eta[i]*(gamma_l[i-1] - gamma) * U_l %*% t(U_l) /
+                    as.vector(t(U_l) %*% U_l)) %*% t(S_l)
+    S_l <- t(chol(A))
   }
 
-  return(list('theta'=theta, 'S'=S_l, 'gamma_l'=gamma_l,
+  return(list('theta'=theta, 'gamma_l'=gamma_l,
               'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau, 'beta'=beta,
                              'lambda'=lambda, 'gamma'=gamma,
                              'filter.number'=filter.number, 'family'=family)
