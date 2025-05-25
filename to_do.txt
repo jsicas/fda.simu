@@ -1,3 +1,7 @@
 R/sample_gen.R
   - Arrumar parâmetro erro. Não está funcional.
   - Integrar com a função ram_gamma
+
+R/simu_ram_gamma.R
+  - Continuar escrita da função.
+  - Como calcular sd?

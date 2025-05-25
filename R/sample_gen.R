@@ -34,8 +34,8 @@
 #'      ylim=c(min(sample$fun), max(sample$fun)))
 #' lapply(1:nrow(sample$fun), \(i) lines(sample$fun[i,], col=i)) |> invisible()
 
-sample_gen <- function(fun_comp, snr, n = 10, signal = 7,
-                       beta, lambda, erro = 'normal', stand = FALSE) {
+sample_gen <- function(fun_comp, snr, n=10, signal=7,
+                       beta, lambda, erro='normal', stand=FALSE) {
   if (isTRUE(stand) & !all(round(apply(fun_comp, 1, sd), 10) == signal)) {
     warning('As funções componentes foram padronizadas (sd(sinal) != signal).')
     fun_comp <- fun_comp/apply(fun_comp, 1, sd) * signal  # garantindo sd(sinal) = 7

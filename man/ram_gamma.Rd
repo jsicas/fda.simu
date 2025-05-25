@@ -27,7 +27,7 @@ a matriz identidaide.}
 \item{d}{coeficientes empíricos de ondaleta. Objeto da classe \code{wd}, ver
 função \link[wavethresh:wd]{wavethresh::wd}.}
 
-\item{n_ite}{número de iterações.}
+\item{n_ite}{número de iterações (tamanho da cadeia gerada).}
 
 \item{alpha}{Parâmetro da mistura da priori spike and slab utilizada.}
 
@@ -129,8 +129,8 @@ legend('bottomright', bty = 'n', lwd = 1, cex = 0.6,
        legend=c('Curva real', 'Cruva recuperada'), col = c('black', 'blue'))
 }
 \references{
-Vihola, M. (2012). Robust adaptive Metropolis algorithm with
-coerced acceptance rate. Stat Comput 22, 997–1008. DOI:
+Vihola, M. (2012). Robust adaptive Metropolis algorithm with coerced
+acceptance rate. Stat Comput 22, 997–1008. DOI:
 \href{https://doi.org/10.1007/s11222-011-9269-5}{10.1007/s11222-011-9269-5}.
 
 Sousa, A.R.S., Garcia, N.L. (2023). Wavelet shrinkage in

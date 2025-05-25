@@ -23,8 +23,8 @@
 #' (theta <- gera_ponto(a = NULL, d))
 #' post_gamma(theta, d, beta = 5, lambda = 1, tau = 4, alpha = 0.7)  # posteriori
 
-gera_ponto <- function(a = NULL, d, lim_sup = 20, filter.number = 5,
-                       family = 'DaubExPhase') {
+gera_ponto <- function(a=NULL, d, lim_sup=10, filter.number=5,
+                       family='DaubExPhase') {
   M <- 2^nlevelsWT(d)
   W <- t(GenW(M, filter.number, family))
   if (is.null(a)) a <- runif(M, 0.01, lim_sup)
