@@ -8,7 +8,6 @@ simu_ram_gamma(
   alpha_comp,
   I,
   n_ite,
-  bt,
   beta,
   lambda,
   alpha,
@@ -16,7 +15,8 @@ simu_ram_gamma(
   gamma = 2/3,
   filter.number = 5,
   family = "DaubExPhase",
-  lim_sup = 15
+  lim_sup = 15,
+  bt = NULL
 )
 }
 \arguments{
@@ -26,8 +26,6 @@ função.}
 \item{I}{Tamanho da amostra gerada, isto é, quantidade de observações.}
 
 \item{n_ite}{número de iterações (tamanho da cadeia gerada).}
-
-\item{bt}{Vetor contendo os índices de burn-in e thinning.}
 
 \item{beta, lambda}{parâmetros do erro \eqn{Gamma(\beta, \lambda)}.}
 
@@ -49,6 +47,10 @@ This argument is ignored for the ``wavelets on the interval'' transform (\code{b
 Note that, as of version 4.6.1 you can use the Lina-Mayrand complex-valued
 wavelets.
 }
+
+\item{bt}{Vetor contendo os índices de burn-in e thinning. Se não for
+especificado será utilizado uma queima de 5\% das observações e um thinning
+de 3 observações.}
 }
 \description{
 Função de Simulação para Dados Funcionais com Erro Gamma

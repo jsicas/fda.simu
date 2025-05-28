@@ -54,5 +54,9 @@ simu_ram_gamma <- function(alpha_comp, I, n_ite, beta, lambda, alpha, tau,
   alpha_hat <- GenW(M, filter.number, family) %*% delta_D  # curvas estimadas
 
   # calculando erro
+  MSE <- colMeans((alpha_hat - alpha_comp)^2)
+  AMSE <- mean(MSE)
 
+  # resultado
+  return(list('MSE'=MSE, 'AMSE'=AMSE))
 }
