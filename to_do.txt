@@ -1,7 +1,13 @@
 R/sample_gen.R
-  - Arrumar parâmetro erro. Não está funcional.
-  - Integrar com a função ram_gamma
+  - Integrar com a função ram_gamma.
 
 R/simu_ram_gamma.R
   - Continuar escrita da função.
-  - Como calcular sd?
+  - Adicionar a quantidade de replicações.
+  - Melhorar função, fazendo com que o ponto seja gerado dentro dela.
+  - Adicionar uma opção que salva todo o ambiente a cada finalização da função
+
+geral
+  - Arrumar os objetos de R/simu.R para que sigam a notação do artigo do Alex.
+  - Fazer todos os argumentos das funções ficarem serem do tipo type=type para
+    evitar problema em futuras manipulações

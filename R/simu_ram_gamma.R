@@ -11,7 +11,7 @@
 #' @param I Tamanho da amostra gerada, isto é, quantidade de observações.
 #' @inheritParams ram_gamma
 #' @param bt Vetor contendo os índices de burn-in e thinning. Se não for
-#'   especificado será utilizado uma queima de 5% das observações e um thinning
+#'   especificado será utilizado uma queima de 15% das observações e um thinning
 #'   de 3 observações.
 
 simu_ram_gamma <- function(alpha_comp, I, n_ite, beta, lambda, alpha, tau,
@@ -20,7 +20,7 @@ simu_ram_gamma <- function(alpha_comp, I, n_ite, beta, lambda, alpha, tau,
   # geral
   M <- nrow(alpha_comp)  # quantidade de pontos por função
   L <- ncol(alpha_comp)  # número de curvas componentes
-  if (is.null(bt)) bt <- seq(round(0.05 * n_ite), n_ite, 3)
+  if (is.null(bt)) bt <- seq(round(0.15 * n_ite), n_ite, 3)
 
   # gerando amostra
   y <- apply(matrix(runif(L*I), nrow=L), 2, \(col) col/sum(col))  # pesos
