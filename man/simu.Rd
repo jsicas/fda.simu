@@ -8,25 +8,15 @@ simu(fun_comp, snr, rep, n=10, policy='sure', filter.number=10,
      stand=T, signal=7)
 }
 \arguments{
-\item{fun_comp}{objeto com as \eqn{L} funções componentes, onde cada linha é uma
-função.}
-
 \item{snr}{razão sinal-ruído.}
 
 \item{rep}{quantidade de replicações da simulação.}
-
-\item{n}{tamanho da amostra gerada.}
 
 \item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
 "universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
 \code{\link[wavethresh]{wavethresh::threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
-
-\item{stand}{Se FALSE (default) as funções componentes não são padronizada para
-terem razão sinal-ruído igual a \code{signal}.}
-
-\item{signal}{desvio padrão dos dados após padronização.}
 }
 \value{
 Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada

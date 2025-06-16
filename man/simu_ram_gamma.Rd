@@ -49,7 +49,7 @@ wavelets.
 }
 
 \item{bt}{Vetor contendo os índices de burn-in e thinning. Se não for
-especificado será utilizado uma queima de 5\% das observações e um thinning
+especificado será utilizado uma queima de 15\% das observações e um thinning
 de 3 observações.}
 }
 \description{

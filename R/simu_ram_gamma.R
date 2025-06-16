@@ -29,7 +29,8 @@ simu_ram_gamma <- function(alpha_comp, I, n_ite, beta, lambda, alpha, tau,
   A <- f + e  # amostra
 
   # DWT
-  D <- apply(A, MARGIN=2, \(col) wd(col, filter.number, family))
+  D <- apply(A, MARGIN=2, \(col) wd(col, filter.number=filter.number,
+                                    family=family))
 
   # gerando e verificando chutes iniciais para theta
   theta_1 <- matrix(0, nrow=M, ncol=I)  # cada coluna é um chute
