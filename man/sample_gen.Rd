@@ -31,7 +31,7 @@ que \eqn{SD(fun\_comp) = 7}.
 \examples{
 # Exemplo 1: Erro normal, L = 2
 x <- (1:1024)/1024
-fun_comp <- matrix(c(bumps, doppler), ncol=2)
+fun_comp <- matrix(c(f_test()$bumps, f_test()$doppler), ncol=2)
 par(mfrow=c(2,1))
 plot(x, fun_comp[,1], type='l', main='Bumps', ylab='y')
 plot(x, fun_comp[,2], type='l', main='Doppler', ylab='y')

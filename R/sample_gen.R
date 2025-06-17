@@ -22,7 +22,7 @@
 #' @examples
 #' # Exemplo 1: Erro normal, L = 2
 #' x <- (1:1024)/1024
-#' fun_comp <- matrix(c(bumps, doppler), ncol=2)
+#' fun_comp <- matrix(c(f_test()$bumps, f_test()$doppler), ncol=2)
 #' par(mfrow=c(2,1))
 #' plot(x, fun_comp[,1], type='l', main='Bumps', ylab='y')
 #' plot(x, fun_comp[,2], type='l', main='Doppler', ylab='y')
@@ -48,15 +48,12 @@
 sample_gen <- function(alpha_comp, snr, I=10, beta, lambda,
                        erro=c('normal', 'gamma')) {
   erro <- match.arg(erro)
-  # verificações
   if (all(apply(alpha_comp, 2, sd) == 7)) {
     stop('É necessário que sd(sinal) = 7 para todas as funções componentes.')
   }
   if ((missing(snr) & erro == 'normal') |
       ((missing(beta) | missing(lambda)) & erro == 'gamma'))
     stop('Parâmetros da função incorretos.')
-
-  # função
   L <- ncol(alpha_comp)  # número de curvas componentes
   M <- nrow(alpha_comp)  # número de pontos por obs.
   y <- matrix(runif(L*I), nrow=L) |> # soma dos pesos igual a 1
@@ -67,5 +64,7 @@ sample_gen <- function(alpha_comp, snr, I=10, beta, lambda,
   } else if(erro == 'gamma') {
     fun_agr <- alpha_comp %*% y + rgamma(I*M, shape=beta, rate=lambda)
   }
-  return(list('fun'=fun_agr, 'y'=y))
+  result <- list('fun'=fun_agr, 'y'=y)
+  class(result) <- 'agr'
+  return(result)
 }

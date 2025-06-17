@@ -4,66 +4,67 @@
 \alias{desagrega}
 \title{Desagregador Dados Funcionais}
 \usage{
-desagrega(data, y, policy='sure', filter.number=10, family='DaubExPhase',
-          a=0.8, s=1, t=1)
+desagrega(
+  data,
+  y,
+  policy = "sure",
+  filter.number = 10,
+  family = "DaubExPhase",
+  a,
+  s,
+  tau
+)
 }
 \arguments{
-\item{data}{observações do funcional agregado.}
+\item{data}{matriz contendo, em cada coluna, uma observações.}
 
 \item{y}{matriz com os pesos conhecidos de cada funcional.}
 
-\item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
-"universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
-\code{\link[wavethresh]{wavethresh::threshold.wd}}.}
+\item{policy}{política para escolha de limiar. Os possíveis valores são
+"sure", "universal", "cv", "fdr", "logistica", "epanechnikov". Para mais
+detalhes, ver \code{\link[wavethresh]{wavethresh::threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
 
-\item{family}{Especifíca a família da ondaleta, e.g. "DaubExPhase", "DaubLeAsymm".}
+\item{family}{Especifíca a família da ondaleta, e.g. "DaubExPhase",
+"DaubLeAsymm".}
 
 \item{a}{parâmetro \eqn{\alpha} da mistura.}
 
-\item{s}{desvio padrão dos coeficientes de ondaleta.}
+\item{s}{desvio padrão dos coeficientes de ondaleta, normalmente estimado
+pelo MAD (median absolute deviation).}
 
-\item{t}{parâmetro \eqn{\tau} da logística.}
+\item{tau}{parâmetro \eqn{\tau} da logística.}
 }
 \value{
-Retorna uma matriz com a função recuperar no domínio do tempo de forma
-que cada linha representa uma função recuperada.
+Retorna uma matriz com a função recuperar no domínio do tempo de
+forma que cada coluna representa uma função recuperada.
 }
 \description{
 Desagregador Dados Funcionais
 }
 \examples{
 set.seed(282829)
+x <- (1:1024)/1024
+alpha_comp <- matrix(c(f_test()$bumps, f_test()$doppler), ncol=2)
+sample <- sample_gen(alpha_comp, snr=5, I=10)
+plot(sample)
+fun_recup <- desagrega(sample$fun, sample$y)  # recuperando funções
 
-# pesos
-y1 <- runif(10); y2 <- 1 - y1
-y <- matrix(c(y1, y2), nrow=2, byrow=T)
-
-# funções componentes
-bumps <- f_test()$bumps
-doppler <- f_test()$doppler
-
-# amostra (snr=5)
-sample <- matrix(0, length(y1), 1024)
-for (i in 1:10) sample[i,] <- y1[i]*bumps + y2[i]*f_test()$doppler + rnorm(1024, 0, 7/5)
-
-# recuperando funções
-fun_recup <- desagrega(sample, y)
-
-# gráficos
-par(mar=c(3, 4, 2, 2)); layout(matrix(c(1,1,2,3), 2, byrow=T))
-plot(1:1000, main='Amostra', ylim=c(-15, 58), type='n', xlab='', ylab='')
-for (i in 1:10) lines(sample[i,], col=i)
-plot(fun_recup[1,], main='Bumps', ylab='y', col='blue', type='l'); lines(bumps)
-legend('topright', lwd=2, bty='n', cex=0.85,
-       legend=c('Função Verdadeira', 'Função Recuperada'), col=c('black', 'blue'))
-plot(fun_recup[2,], main='Doppler', ylab='y', col='blue', type='l'); lines(doppler)
-legend('bottomright', lwd=2, bty='n', cex=0.85,
-       legend=c('Função Verdadeira', 'Função Recuperada'), col=c('black', 'blue'))
+# plot
+par(mar=c(3, 4, 2, 2), mgp=c(2, 0.5, 0)); layout(matrix(c(1,1,2,3), 2, byrow=T))
+plot(sample)
+plot(x, fun_recup[,1], main='Bumps', ylab='y', col='blue', type='l')
+lines(x, alpha_comp[,1])
+legend('topright', lwd=2, bty='n', cex=0.85, col=c('black', 'blue'),
+       legend=c('Função Verdadeira', 'Função Recuperada'))
+plot(x, fun_recup[,2], main='Doppler', ylab='y', col='blue', type='l')
+lines(x, alpha_comp[,2])
+legend('bottomright', lwd=2, bty='n', cex=0.85, col=c('black', 'blue'),
+       legend=c('Função Verdadeira', 'Função Recuperada'))
 }
 \references{
-Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data
-analysis. \emph{Monte Carlo Methods and Applications}, 30(1), 19-30.
-DOI: \href{https://doi.org/10.1515/mcma-2023-2016}{10.1515/mcma-2023-2016}.
+Sousa, A.R.S. (2024). A wavelet-based method in aggregated
+functional data analysis. \emph{Monte Carlo Methods and Applications}, 30(1),
+19-30. DOI: \href{https://doi.org/10.1515/mcma-2023-2016}{10.1515/mcma-2023-2016}.
 }

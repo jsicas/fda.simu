@@ -2,19 +2,18 @@
 #'
 #' @export
 #'
-#' @usage logis_shrink(d, a, s, t)
-#'
 #' @param d vetor de coeficientes de ondaleta empírico.
 #' @param a parâmetro \eqn{\alpha} da mistura.
-#' @param s desvio padrão dos coeficientes de ondaleta.
-#' @param t parâmetro \eqn{\tau} da logística.
+#' @param s desvio padrão dos coeficientes de ondaleta, normalmente estimado
+#'   pelo MAD (median absolute deviation).
+#' @param tau parâmetro \eqn{\tau} da logística.
 #'
 #' @returns Retorna um vetor de mesmo tamanho inicial com os coeficientes de
 #' ondaleta estimados.
 #'
 #' @details
-#' Seja \eqn{\theta} uma variável aleatória com distribuição logística, então, sua
-#' densidade é dada por:
+#' Seja \eqn{\theta} uma variável aleatória com distribuição logística, então,
+#' sua densidade é dada por:
 #' \deqn{g(\theta; \tau) = \dfrac{\exp\left\{-\frac{\theta}{\tau}\right\}}
 #' {\tau\left(1 + \exp\left\{-\frac{\theta}{\tau}\right\}\right)^2} \;
 #' \mathcal{I}_{\mathbb{R}}^{(\theta)}}
@@ -52,11 +51,11 @@
 #'   lines(x, logis_shrink(x, 0.8, 1, t[i]), col=i, lwd=2)
 #' }
 
-logis_shrink <- function(d, a, s, t) {
+logis_shrink <- function(d, a, s, tau) {
   u <- rnorm(10000)
   delta <- vector(length(d), mode='double')
   for(i in 1:length(d)) {
-    logis <- dlogis(s*u + d[i], scale=t)
+    logis <- dlogis(s*u + d[i], scale=tau)
     int1 <- mean((s*u + d[i]) * logis)
     int2 <- mean(logis)
     delta[i] <- (1-a) * int1/(a * dnorm(d[i], sd=s)/s + (1-a) * int2)

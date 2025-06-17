@@ -4,16 +4,17 @@
 \alias{logis_shrink}
 \title{Regra de Encolhimento Bayesiana com Priori Logística}
 \usage{
-logis_shrink(d, a, s, t)
+logis_shrink(d, a, s, tau)
 }
 \arguments{
 \item{d}{vetor de coeficientes de ondaleta empírico.}
 
 \item{a}{parâmetro \eqn{\alpha} da mistura.}
 
-\item{s}{desvio padrão dos coeficientes de ondaleta.}
+\item{s}{desvio padrão dos coeficientes de ondaleta, normalmente estimado
+pelo MAD (median absolute deviation).}
 
-\item{t}{parâmetro \eqn{\tau} da logística.}
+\item{tau}{parâmetro \eqn{\tau} da logística.}
 }
 \value{
 Retorna um vetor de mesmo tamanho inicial com os coeficientes de
@@ -23,8 +24,8 @@ ondaleta estimados.
 Regra de Encolhimento Bayesiana com Priori Logística
 }
 \details{
-Seja \eqn{\theta} uma variável aleatória com distribuição logística, então, sua
-densidade é dada por:
+Seja \eqn{\theta} uma variável aleatória com distribuição logística, então,
+sua densidade é dada por:
 \deqn{g(\theta; \tau) = \dfrac{\exp\left\{-\frac{\theta}{\tau}\right\}}
 {\tau\left(1 + \exp\left\{-\frac{\theta}{\tau}\right\}\right)^2} \;
 \mathcal{I}_{\mathbb{R}}^{(\theta)}}

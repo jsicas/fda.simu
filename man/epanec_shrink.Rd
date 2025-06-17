@@ -56,5 +56,7 @@ de escala \eqn{\frac{1}{\sqrt{2\lambda}}}.
 curve(epanec_shrink(x, 0.8, 4, 6), -6, 6)
 }
 \references{
-Fidel
+Barrios, F.A.C. (2025). Comparação de Desempenho de Estimadores
+de Coeficientes de Ondaletas em Dados com Baixa Razão Sinal-Ruído via
+Simulações Monte Carlo. Tese (mestrado) - UNICAMP, IMECC, Campinas, SP.
 }

@@ -4,19 +4,34 @@
 \alias{simu}
 \title{Simulação para Política de Limiar}
 \usage{
-simu(fun_comp, snr, rep, n=10, policy='sure', filter.number=10,
-     stand=T, signal=7)
+simu(
+  alpha_comp,
+  snr,
+  rep,
+  I = 10,
+  policy = "sure",
+  filter.number = 10,
+  family = "DaubExPhase"
+)
 }
 \arguments{
+\item{alpha_comp}{objeto com as \eqn{L} funções componentes, onde cada coluna é uma
+função.}
+
 \item{snr}{razão sinal-ruído.}
 
 \item{rep}{quantidade de replicações da simulação.}
 
-\item{policy}{política para escolha de limiar. Os possíveis valores são "sure",
-"universal", "cv", "fdr", "logistica", "epanechnikov". Para maide detalhes, ver
-\code{\link[wavethresh]{wavethresh::threshold.wd}}.}
+\item{I}{quantidade de observações que se deseja gerar.}
+
+\item{policy}{política para escolha de limiar. Os possíveis valores são
+"sure", "universal", "cv", "fdr", "logistica", "epanechnikov". Para mais
+detalhes, ver \code{\link[wavethresh]{wavethresh::threshold.wd}}.}
 
 \item{filter.number}{controla a suavidade da ondaleta.}
+
+\item{family}{Especifíca a família da ondaleta, e.g. "DaubExPhase",
+"DaubLeAsymm".}
 }
 \value{
 Retorna um objeto da classe \code{data.frame} com o cálculo do MSE de cada
@@ -26,19 +41,18 @@ função e o AMSE.
 Simulação para Política de Limiar
 }
 \details{
-A função assume que, para o cálculo da razão sinal-ruído, que
-\eqn{sd(sinal)=7}. Os pesos para cada função são gerados aleatóriamente
-seguindo uma \eqn{\mathcal{U}(0,1)} e são modificados de forma a garantir que
-sua soma é \eqn{1}.
+A função assume, para o cálculo da razão sinal-ruído, que \eqn{sd(sinal)=7}.
+Os pesos para cada função são gerados aleatóriamente seguindo uma
+\eqn{\mathcal{U}(0,1)} e são modificados de forma a garantir que sua soma
+seja \eqn{1}.
 }
 \examples{
-bumps <- f_test()$bumps; doppler <- f_test()$doppler
+fun_comp <- matrix(c(f_test()$bumps, f_test()$doppler), ncol=2)
 par(mfrow=c(2,1))
-plot(bumps, type='l', main='Bumps'); plot(doppler, type='l', main='Doppler')
+plot(fun_comp[,1], type='l', main='Bumps'); plot(fun_comp[,2], type='l', main='Doppler')
 
 # plan(multisession, workers=2)  # paralelizando execução
-fun_comp <- matrix(c(bumps, doppler), nrow=2, byrow=T)
-simu(fun_comp, rep=4, n=10, snr=5)
+simu(fun_comp, rep=4, I=10, snr=5)
 }
 \references{
 Sousa, A.R.S. (2024). A wavelet-based method in aggregated functional data

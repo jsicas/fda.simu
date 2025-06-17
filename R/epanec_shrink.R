@@ -42,8 +42,9 @@
 #' de densidade da distribuição exponencial dupla com média \eqn{0} e parâmetro
 #' de escala \eqn{\frac{1}{\sqrt{2\lambda}}}.
 #'
-#' @references
-#' Fidel
+#' @references Barrios, F.A.C. (2025). Comparação de Desempenho de Estimadores
+#' de Coeficientes de Ondaletas em Dados com Baixa Razão Sinal-Ruído via
+#' Simulações Monte Carlo. Tese (mestrado) - UNICAMP, IMECC, Campinas, SP.
 #'
 #' @examples
 #' curve(epanec_shrink(x, 0.8, 4, 6), -6, 6)
