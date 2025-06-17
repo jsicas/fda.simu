@@ -16,7 +16,7 @@ simu_ram_gamma(
   filter.number = 5,
   family = "DaubExPhase",
   lim_sup = 15,
-  bt = NULL
+  bt
 )
 }
 \arguments{

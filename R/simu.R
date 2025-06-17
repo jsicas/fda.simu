@@ -36,7 +36,7 @@
 #' simu(fun_comp, rep=4, I=10, snr=5)
 
 simu <- function(alpha_comp, snr, rep, I=10, policy='sure',
-                 filter.number=10, family='DaubExPhase') {
+                 filter.number=5, family='DaubExPhase') {
   if (nbrOfWorkers() == 1)
     message('A simulação não está sendo paralelizada.')
 
@@ -47,9 +47,9 @@ simu <- function(alpha_comp, snr, rep, I=10, policy='sure',
     alpha <- desagrega(sample$fun, sample$y, policy=policy,
                        filter.number=filter.number, family=family)
     # calculando erro
-    MSE <- rowMeans((alpha - fun_comp)^2)
+    MSE <- colMeans((alpha - alpha_comp)^2)
     c(MSE, mean(MSE))
   }, .options=furrr_options(seed=TRUE), .progress=T) |>
     do.call(rbind.data.frame, args=_) |>
-    setNames(nm=c(paste0('MSE_', 1:nrow(fun_comp)), 'AMSE'))
+    setNames(nm=c(paste0('MSE_', 1:ncol(alpha_comp)), 'AMSE'))
 }

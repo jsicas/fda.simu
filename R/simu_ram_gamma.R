@@ -16,16 +16,16 @@
 
 simu_ram_gamma <- function(alpha_comp, I, n_ite, beta, lambda, alpha, tau,
                            gamma=2/3, filter.number=5, family='DaubExPhase',
-                           lim_sup=15, bt=NULL) {
+                           lim_sup=15, bt) {
   # geral
   M <- nrow(alpha_comp)  # quantidade de pontos por função
   L <- ncol(alpha_comp)  # número de curvas componentes
-  if (is.null(bt)) bt <- seq(round(0.15 * n_ite), n_ite, 3)
+  if (missing(bt)) bt <- seq(round(0.15 * n_ite), n_ite, 3)
 
   # gerando amostra
   y <- apply(matrix(runif(L*I), nrow=L), 2, \(col) col/sum(col))  # pesos
   f <- alpha_comp %*% y
-  e <- matrix(rgamma(M*I, shape=beta, rate=lambda), ncol=I)     # erro
+  e <- matrix(rgamma(M*I, shape=beta, rate=lambda), ncol=I)       # erro
   A <- f + e  # amostra
 
   # DWT

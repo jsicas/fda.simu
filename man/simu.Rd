@@ -10,7 +10,7 @@ simu(
   rep,
   I = 10,
   policy = "sure",
-  filter.number = 10,
+  filter.number = 5,
   family = "DaubExPhase"
 )
 }
@@ -47,9 +47,11 @@ Os pesos para cada função são gerados aleatóriamente seguindo uma
 seja \eqn{1}.
 }
 \examples{
+x <- (1:1024)/1024
 fun_comp <- matrix(c(f_test()$bumps, f_test()$doppler), ncol=2)
 par(mfrow=c(2,1))
-plot(fun_comp[,1], type='l', main='Bumps'); plot(fun_comp[,2], type='l', main='Doppler')
+plot(x, fun_comp[,1], type='l', main='Bumps', ylab='y')
+plot(x,fun_comp[,2], type='l', main='Doppler', ylab='y')
 
 # plan(multisession, workers=2)  # paralelizando execução
 simu(fun_comp, rep=4, I=10, snr=5)

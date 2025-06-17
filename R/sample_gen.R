@@ -61,7 +61,7 @@ sample_gen <- function(alpha_comp, snr, I=10, beta, lambda,
   if (erro == 'normal') {
     signal <- 7
     fun_agr <- alpha_comp %*% y + rnorm(I*M, 0, signal/snr)
-  } else if(erro == 'gamma') {
+  } else if (erro == 'gamma') {
     fun_agr <- alpha_comp %*% y + rgamma(I*M, shape=beta, rate=lambda)
   }
   result <- list('fun'=fun_agr, 'y'=y)
