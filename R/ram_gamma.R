@@ -79,8 +79,8 @@ ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
   }
 
   return(list('theta'=theta, 'gamma_l'=gamma_l,
-              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau, 'beta'=beta,
-                             'lambda'=lambda, 'gamma'=gamma,
+              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau,
+                             'beta'=beta, 'lambda'=lambda, 'gamma'=gamma,
                              'filter.number'=filter.number, 'family'=family)
   ))
 }

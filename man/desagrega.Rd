@@ -52,7 +52,8 @@ plot(sample)
 fun_recup <- desagrega(sample$fun, sample$y)  # recuperando funções
 
 # plot
-par(mar=c(3, 4, 2, 2), mgp=c(2, 0.5, 0)); layout(matrix(c(1,1,2,3), 2, byrow=T))
+par(mar=c(3, 4, 2, 2), mgp=c(2, 0.5, 0))
+layout(matrix(c(1,1,2,3), 2, byrow=T))
 plot(sample)
 plot(x, fun_recup[,1], main='Bumps', ylab='y', col='blue', type='l')
 lines(x, alpha_comp[,1])

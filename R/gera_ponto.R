@@ -19,9 +19,9 @@
 #' @examples
 #' # library(wavethresh)
 #' y <- c(1,2,7,2,5,6,0,3)  # valores observados
-#' d <- wd(y, filter.number = 5, family = 'DaubExPhase')
-#' (theta <- gera_ponto(a = NULL, d))
-#' post_gamma(theta, d, beta = 5, lambda = 1, tau = 4, alpha = 0.7)  # posteriori
+#' d <- wd(y, filter.number=5, family='DaubExPhase')
+#' (theta <- gera_ponto(a=NULL, d))
+#' post_gamma(theta, d, beta=5, lambda=1, tau=4, alpha=0.7)  # posteriori
 
 gera_ponto <- function(a=NULL, d, lim_sup=10, filter.number=5,
                        family='DaubExPhase') {
