@@ -15,6 +15,7 @@
 # setup -------------------------------------------------------------------
 set.seed(678512)
 require(fda.simu)
+require(future)
 plan(multisession, workers=10)
 
 
