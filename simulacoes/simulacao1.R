@@ -141,3 +141,4 @@ simu_5_2048_2 <- simu(alpha_comp_2, snr=5, rep=500, I=50)  # L = 2
 simu_5_2048_4 <- simu(alpha_comp_4, snr=5, rep=500, I=50)  # L = 4
 simu_5_2048_5 <- simu(alpha_comp_5, snr=5, rep=500, I=50)  # L = 5
 
+save.image('simulacao1_FAPESP.RData')
