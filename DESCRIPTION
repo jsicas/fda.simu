@@ -17,6 +17,7 @@ Imports:
   future,
   furrr,
   purrr,
+  doFuture,
   mvtnorm
 Suggests:
     knitr,
