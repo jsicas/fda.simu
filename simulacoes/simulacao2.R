@@ -28,6 +28,7 @@
 # setup -------------------------------------------------------------------
 set.seed(1832323)
 require(fda.simu)
+require(future)
 plan(multisession, workers=25)
 
 # a estrutura dos objetos da simulação vão seguir: simu_SNR_M_L
