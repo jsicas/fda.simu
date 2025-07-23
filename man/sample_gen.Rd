@@ -37,17 +37,13 @@ plot(x, fun_comp[,1], type='l', main='Bumps', ylab='y')
 plot(x, fun_comp[,2], type='l', main='Doppler', ylab='y')
 par(mfrow=c(1,1))
 sample <- sample_gen(fun_comp, snr=5, I=7)
-plot(x=x, y=x, main='Amostra Gerada (erro Normal)', ylab='', type='n',
-     ylim=c(min(sample$fun), max(sample$fun)))
-for (i in 1:ncol(sample$fun)) lines(x, sample$fun[,i], col=i)
+plot(sample, main='Amostra Gerada (erro Normal)', ylab='')
 
 # Example 2: Erro gamma, L = 3
 fun_comp <- cbind(fun_comp, f_test()$blocks)
 plot(x, fun_comp[,3], type='l', main='blocks', ylab='y')
 sample <- sample_gen(fun_comp, I=7, beta=2, lambda=2, erro='gamma')
-plot(x=x, y=x, main='Amostra Gerada (erro Gamma)', ylab='', type='n',
-     ylim=c(min(sample$fun), max(sample$fun)))
-for (i in 1:ncol(sample$fun)) lines(x, sample$fun[,i], col=i)
+plot(sample, main='Amostra Gerada (erro Gamma)', ylab='')
 
 plot(x, fun_comp \%*\% sample$y[,1], type='l', main='Obs 1', ylab='y')
 lines(x, sample$fun[,1], col='blue')

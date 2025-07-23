@@ -31,29 +31,3 @@ gera_ponto <- function(a=NULL, d, lim_sup=10, filter.number=5,
   d_emp <- c(accessC(d, lev=0), d$D)  # coeficientes empíricos
   return(as.vector(d_emp - W %*% a))  # theta
 }
-
-
-# @param y Valores observados.
-# @examples
-# y <- c(1,2,7,2,5,6,0,3)  # valores observados
-# d <- wd(y, filter.number = 5, family = 'DaubExPhase')
-# (theta <- gera_ponto(y))
-# post_gamma(theta, d, beta = 5, lambda = 1, tau = 4, alpha = 0.7)  # posteriori
-
-# gera_ponto <- function(y = NULL, d = NULL, lim_sup = 20, filter.number = 5,
-#                        family = 'DaubExPhase') {
-#   if (!is.null(y) & !is.null(d)) stop('Especifique apenas y ou d.')
-#   if (is.null(d)) {
-#     dwt <- wd(y, filter.number=filter.number, family=family)
-#     d <- c(accessC(dwt, lev=0), dwt$D)  # coeficientes empíricos
-#     M <- length(y)  # quantidade de pontos
-#   } else if (class(d) != 'wd'){
-#     M <- length(d)
-#   } else {
-#     d <- c(accessC(d, lev=0), d$D)
-#   }
-#   a <- runif(M, 0.01, lim_sup)  # W(d - theta) = a >= 0
-#   W <- t(GenW(M, filter.number=filter.number, family=family))
-#   theta <- d - W %*% a
-#   return(theta)
-# }

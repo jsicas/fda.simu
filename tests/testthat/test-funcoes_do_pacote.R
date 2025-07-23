@@ -1,6 +1,6 @@
 # setup -------------------------------------------------------------------
 I <- 5     # número de observações
-M <- 1024  # número de pontos por observação
+M <- 128    # número de pontos por observação
 snr <- 5   # erro normal
 beta <- 2; lambda <- 2  # erro gamma
 alpha_comp <- matrix(c(f_test(M)$bumps, f_test(M)$doppler, f_test(M)$blocks), M)
@@ -20,6 +20,12 @@ for (j in seq_along(D)) {
 }
 gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))
 alpha <- GenW(M, filter.number=5, family='DaubExPhase') %*% gamma
+
+D_gamma <- apply(sample_gamma, MARGIN=2, wd, filter.number=5, family='DaubExPhase')
+set.seed(123123)
+theta_1 <- gera_ponto(a=NULL, d=D_gamma[[1]], lim_sup=beta/lambda,
+                      filter.number=5, family='DaubExPhase')
+# post_gamma(theta_1, d=D_gamma[[1]], beta=beta, lambda=lambda, tau=3, alpha=0.5)
 
 
 # sample_gen --------------------------------------------------------------
@@ -45,5 +51,13 @@ test_that('desagrega: sure policy', {
   des <- desagrega(sample$fun, sample$y, policy='sure', filter.number=5,
                    family='DaubExPhase')
   expect_equal(des, alpha)
+})
+
+
+# ram_gamma ---------------------------------------------------------------
+test_that('ram_gamma: teste geral', {
+  expect_snapshot(ram_gamma(theta_1, S_1=NULL, d=D_gamma[[1]], n_ite=10, alpha=0.5,
+                            tau=3, beta=5, lambda=1.5, gamma=2/3,
+                            filter.number=5, family='DaubExPhase'))
 })
 

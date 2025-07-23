@@ -63,7 +63,6 @@ desagrega <- function(data, y, policy='sure', filter.number=10,
     stop('Politica de limiar mal especificada.')
   }
   gamma <- D_shrink %*% t(y) %*% solve(y %*% t(y))
-  alpha <- GenW(nrow(data), filter.number=filter.number, family=family) %*%
-    gamma  # funções recuperadas
+  alpha <- GenW(nrow(data), filter.number, family) %*% gamma  # funções recuperadas
   return(alpha)
 }

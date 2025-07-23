@@ -1,8 +1,6 @@
 #' @title Gera Amostra da Posteriori com Erro Gamma por Meio do Algorítimo RAM
 #'
-#' @importFrom wavethresh wd
-#' @importFrom wavethresh GenW
-#' @importFrom mvtnorm rmvnorm
+#' @importFrom wavethresh wd GenW
 #'
 #' @export
 #'
@@ -28,21 +26,22 @@
 #' Statistical Computation and Simulation}. DOI:
 #' [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
 #'
-#' @example examples/ram_gamma_exam.R
+#' @example examples/exam_ram_gamma.R
 
 ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
                       tau=2, beta, lambda, gamma=2/3,
                       filter.number=5, family='DaubExPhase') {
-  # verificando ponto inicial detheta
-  if (post_gamma(theta_1, d, beta, lambda, tau, alpha, filter.number, family) == 0)
+  # verificando ponto inicial de theta
+  if (post_gamma(theta_1, d=d, beta=beta, lambda=lambda, tau=tau, alpha=alpha,
+                 filter.number=filter.number, family=family) == 0)
     stop('Ponto inicial inválido, forneça um ponto com densidade maior que 0.')
 
   # criando objetos
   M <- 2^nlevelsWT(d)            # quantidade de pontos por função
   theta <- matrix(0, n_ite, M)   # matriz contendo amostra de theta
-  gamma_l <- vector(mode='numeric', n_ite - 1)  # vetor para armazenar gamma_l
+  gamma_l <- numeric(n_ite - 1)  # vetor para armazenar gamma_l
   eta <- seq(1, n_ite)^(-gamma)  # parâmetro do algorítimo RAM
-  W <- t(GenW(M, filter.number=filter.number, family=family))
+  W <- t(GenW(M, filter.number, family))
   theta_mudou <- TRUE            # indica quando theta muda
 
   # armazenando chute inicial
@@ -50,6 +49,7 @@ ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
   theta[1,] <- theta_1              # chute inicial para theta
   S_l <- S_1                        # chute inicial para S
 
+  # iterando
   for (i in 2:n_ite) {
     # proposta
     U_l <- matrix(rnorm(M))
@@ -62,8 +62,10 @@ ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
     }
 
     # taxa de aceitação
-    gamma_l[i-1] <- min(1, post_gamma(theta_star, d, beta, lambda, tau, alpha,
-                                        filter.number, family, W)/den)
+    gamma_l[i-1] <- min(1, post_gamma(theta_star, d=d, beta=beta, lambda=lambda,
+                                      tau=tau, alpha=alpha,
+                                      filter.number=filter.number, family=family,
+                                      W=W)/den)
 
     if (rbinom(1, 1, gamma_l[i-1]) == 1) {
       theta[i,] <- theta_star

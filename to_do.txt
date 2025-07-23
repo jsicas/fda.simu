@@ -8,7 +8,6 @@ R/simu_ram_gamma.R
   - Adicionar uma opção que salva todo o ambiente a cada finalização da função
 
 geral
-  - Arrumar os objetos de R/simu.R para que sigam a notação do artigo do Alex.
   - Fazer todos os argumentos das funções ficarem serem do tipo type=type para
     evitar problema em futuras manipulações.
   - Integrar todas as funções e exemplos com plot.agr.
