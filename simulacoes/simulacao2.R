@@ -1,9 +1,9 @@
 # Este arquivo fará todo o processamento da simulação para o modelo de dados
 # funcionais com erro Gamma(beta, lambda). Como parâmetros temos:
 #
-#   - M = 32 e 128 (pontos por curva);
+#   - M = 32 e 64 (pontos por curva);
 #   - L = 2 e 4 (quantidade de funções componentes);
-#   - SNR = 3 (beta = 36/49 e lambda = 18/49) e 7 (beta = 2 e lambda = 4);
+#   - SNR = 3 (beta = 36/49 e lambda = 18/49) e 7 (beta = 4 e lambda = 2);
 #   - I = 50 (número de curvas);
 #   - alpha = 0.75 e tau = 5 (parâmetros da mistura da priori);
 #   - n_ite = 50000 (tamanho da cadeia);
@@ -29,7 +29,7 @@
 set.seed(1832323)
 require(fda.simu)
 require(future)
-rep <- 500
+rep <- 400
 n_ite <- 50000
 
 plan(multisession, workers=20)
