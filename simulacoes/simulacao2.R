@@ -7,7 +7,7 @@
 #   - I = 50 (número de curvas);
 #   - alpha = 0.75 e tau = 5 (parâmetros da mistura da priori);
 #   - n_ite = 50000 (tamanho da cadeia);
-#   - rep = 500 (quantidade de replicações).
+#   - rep = 400 (quantidade de replicações).
 #
 # Além disso, para L = 2 serão utilizadas as funções Bumps e Doppler, para L = 4
 # serão utilziadas todas as funções de testes de Donoho e Johnstone. Por fim,
