@@ -3,10 +3,10 @@
 #
 #   - M = 32 e 128 (pontos por curva);
 #   - L = 2 e 4 (quantidade de funções componentes);
-#   - SNR = 3 (beta = 36/49 e lambda = 18/49) e 9 (beta = 324/49 e lambda = 162/49);
+#   - SNR = 3 (beta = 36/49 e lambda = 18/49) e 7 (beta = 2 e lambda = 4);
 #   - I = 50 (número de curvas);
 #   - alpha = 0.75 e tau = 5 (parâmetros da mistura da priori);
-#   - n_ite = 100000 (tamanho da cadeia);
+#   - n_ite = 50000 (tamanho da cadeia);
 #   - rep = 500 (quantidade de replicações).
 #
 # Além disso, para L = 2 serão utilizadas as funções Bumps e Doppler, para L = 4
@@ -29,32 +29,37 @@
 set.seed(1832323)
 require(fda.simu)
 require(future)
+rep <- 500
+n_ite <- 50000
+
 plan(multisession, workers=20)
 
 # a estrutura dos objetos da simulação vão seguir: simu_SNR_M_L
-message('Iniciando simulação')
+message('Iniciando simulação: ', format(Sys.time(), '%H:%M:%S %d/%m/%Y'))
 
-# M = 128 -----------------------------------------------------------------
-M <- 128
+# M = 64 ------------------------------------------------------------------
+M <- 64
 alpha_2 <- matrix(c(f_test(M)$bumps, f_test(M)$doppler), ncol=2)
 alpha_4 <- matrix(c(f_test(M)$bumps, f_test(M)$doppler, f_test(M)$blocks,
                     f_test(M)$heavisine), ncol=4)
 
 # SNR = 3 ===============================
-simu_3_128_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=50000, rep=500, alpha=0.75,
+simu_3_64_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
                                tau=5, beta=36/49, lambda=18/49)
-simu_3_128_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=50000, rep=500, alpha=0.75,
+simu_3_64_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
                                tau=5, beta=36/49, lambda=18/49)
 
-message('SNR = 3 e M = 128: feito')
+save.image('parcial1_simulacao2_FAPESP.RData')
+message('SNR = 3 e M = 64 feito: ', format(Sys.time(), '%H:%M:%S %d/%m/%Y'))
 
-# SNR = 9 ===============================
-simu_9_128_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=50000, rep=500, alpha=0.75,
-                               tau=5, beta=324/49, lambda=162/49)
-simu_9_128_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=50000, rep=500, alpha=0.75,
-                               tau=5, beta=324/49, lambda=162/49)
+# SNR = 7 ===============================
+simu_7_64_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
+                               tau=5, beta=4, lambda=2)
+simu_7_64_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
+                               tau=5, beta=4, lambda=2)
 
-message('SNR = 9 e M = 128: feito')
+save.image('parcial2_simulacao2_FAPESP.RData')
+message('SNR = 7 e M = 64 feito: ', format(Sys.time(), '%H:%M:%S %d/%m/%Y'))
 
 # M = 32 ------------------------------------------------------------------
 M <- 32
@@ -63,19 +68,20 @@ alpha_4 <- matrix(c(f_test(M)$bumps, f_test(M)$doppler, f_test(M)$blocks,
                     f_test(M)$heavisine), ncol=4)
 
 # SNR = 3 ===============================
-simu_3_32_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=50000, rep=500, alpha=0.75,
+simu_3_32_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
                               tau=5, beta=36/49, lambda=18/49)
-simu_3_32_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=50000, rep=500, alpha=0.75,
+simu_3_32_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
                               tau=5, beta=36/49, lambda=18/49)
 
-message('SNR = 3 e M = 32: feito')
+save.image('parcial3_simulacao2_FAPESP.RData')
+message('SNR = 3 e M = 32 feito: ', format(Sys.time(), '%H:%M:%S %d/%m/%Y'))
 
-# SNR = 9 ===============================
-simu_9_32_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=50000, rep=500, alpha=0.75,
-                              tau=5, beta=324/49, lambda=162/49)
-simu_9_32_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=50000, rep=500, alpha=0.75,
-                              tau=5, beta=324/49, lambda=162/49)
+# SNR = 7 ===============================
+simu_7_32_2 <- simu_ram_gamma(alpha_2, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
+                              tau=5, beta=4, lambda=2)
+simu_7_32_4 <- simu_ram_gamma(alpha_4, I=50, n_ite=n_ite, rep=rep, alpha=0.75,
+                              tau=5, beta=4, lambda=2)
 
-message('SNR = 9 e M = 32: feito')
+message('SNR = 7 e M = 32 feito: : ', format(Sys.time(), '%H:%M:%S %d/%m/%Y'))
 
 save.image('simulacao2_FAPESP.RData')

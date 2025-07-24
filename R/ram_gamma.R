@@ -43,6 +43,7 @@ ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
   eta <- seq(1, n_ite)^(-gamma)  # parâmetro do algorítimo RAM
   W <- t(GenW(M, filter.number, family))
   theta_mudou <- TRUE            # indica quando theta muda
+  I_M <- diag(M)
 
   # armazenando chute inicial
   if (is.null(S_1)) S_1 <- diag(M)  # chute inicial se S não definida
@@ -75,8 +76,8 @@ ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
     }
 
     # atualizando S_l
-    A <- S_l %*% (diag(M) + eta[i]*(gamma_l[i-1] - gamma) * U_l %*% t(U_l) /
-                    as.vector(t(U_l) %*% U_l)) %*% t(S_l)
+    A <- S_l %*% tcrossprod(I_M + eta[i]*(gamma_l[i-1] - gamma) * tcrossprod(U_l) /
+                              drop(crossprod(U_l)), y = S_l)
     S_l <- t(chol(A))
   }
 
@@ -86,3 +87,66 @@ ram_gamma <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
                              'filter.number'=filter.number, 'family'=family)
   ))
 }
+
+
+
+ram_gamma_alt <- function(theta_1, S_1=NULL, d, n_ite=50000, alpha=0.8,
+                          tau=2, beta, lambda, gamma=2/3,
+                          filter.number=5, family='DaubExPhase') {
+  # verificando ponto inicial de theta
+  if (post_gamma(theta_1, d=d, beta=beta, lambda=lambda, tau=tau, alpha=alpha,
+                 filter.number=filter.number, family=family) == 0)
+    stop('Ponto inicial inválido, forneça um ponto com densidade maior que 0.')
+
+  # criando objetos
+  M <- 2^nlevelsWT(d)            # quantidade de pontos por função
+  theta <- matrix(0, n_ite, M)   # matriz contendo amostra de theta
+  gamma_l <- numeric(n_ite - 1)  # vetor para armazenar gamma_l
+  eta <- seq(1, n_ite)^(-gamma)  # parâmetro do algorítimo RAM
+  W <- t(GenW(M, filter.number, family))
+  theta_mudou <- TRUE            # indica quando theta muda
+  I_M <- diag(M)
+
+  # armazenando chute inicial
+  if (is.null(S_1)) S_1 <- diag(M)  # chute inicial se S não definida
+  theta[1,] <- theta_1              # chute inicial para theta
+  S_l <- S_1                        # chute inicial para S
+
+  # iterando
+  for (i in 2:n_ite) {
+    # proposta
+    U_l <- matrix(rnorm(M))
+    theta_star <- t(theta[i-1,] + S_l %*% U_l)
+
+    if (theta_mudou == TRUE) {
+      den <- post_gamma(theta[i-1,], d, beta, lambda, tau, alpha,
+                        filter.number, family, W)
+      theta_mudou <- FALSE
+    }
+
+    # taxa de aceitação
+    gamma_l[i-1] <- min(1, post_gamma(theta_star, d=d, beta=beta, lambda=lambda,
+                                      tau=tau, alpha=alpha,
+                                      filter.number=filter.number, family=family,
+                                      W=W)/den)
+
+    if (rbinom(1, 1, gamma_l[i-1]) == 1) {
+      theta[i,] <- theta_star
+      theta_mudou <- TRUE
+    } else {
+      theta[i,] <- theta[i-1,]
+    }
+
+    # atualizando S_l
+
+    S_l <- t(chol(A))
+  }
+
+  return(list('theta'=theta, 'gamma_l'=gamma_l,
+              'parametros'=c('n_ite'=n_ite, 'alpha'=alpha, 'tau'=tau,
+                             'beta'=beta, 'lambda'=lambda, 'gamma'=gamma,
+                             'filter.number'=filter.number, 'family'=family)
+  ))
+}
+
+

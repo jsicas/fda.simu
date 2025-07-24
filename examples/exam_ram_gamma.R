@@ -1,5 +1,54 @@
-# require(wavethresh)
+library(wavethresh)
 set.seed(123)
+
+
+# Exemplo 1 ---------------------------------------------------------------
+M <- 64                      # quantidade de pontos por função
+I <- 1                       # quantidade de observações
+beta <- 196/25; lambda <- 2  # parâmetros do erro Gamma(beta, lambda)
+alpha <- matrix(c(f_test(M)$bumps, f_test(M)$heavisine), ncol = 2)
+
+par(mfrow = c(1,2))
+plot(alpha[,1], type = 'b', ylab='', main = 'Bumps')
+plot(alpha[,2], type = 'b', ylab='', main = 'Heavisine')
+par(mfrow = c(1,1))
+
+# pesos
+y1 <- runif(I)                               # pesos da curva 1 (bumps)
+y <- matrix(c(y1, 1 - y1), nrow=2, byrow=T)  # matriz de pesos
+
+# amostra
+f <- alpha %*% y  # combinação das funções verdadeiras
+e <- matrix(rgamma(M * I, shape = beta, rate = lambda), nrow = M,
+            ncol = I, byrow = T)
+A <- f + e
+
+# DWT
+D <- wd(A, filter.number = 5, family = 'DaubExPhase')
+
+# chute inicial
+theta_1 <- gera_ponto(d = D, lim_sup = beta/lambda, filter.number = 5,
+                      family = 'DaubExPhase')
+
+# RAM
+tau <- 5; alpha_priori <- 0.8  # parâmetros da priori
+
+## fazendo cadeia
+set.seed(123)
+d_i <- ram_gamma(theta_1, S_1 = NULL, D, n_ite = 3000,
+                 alpha_priori, tau, beta, lambda, gamma = 2/3,
+                 filter.number = 5, family = 'DaubExPhase')
+set.seed(123)
+d_ii <- ram_gamma_alt(theta_1, S_1 = NULL, D, n_ite = 3000,
+                 alpha_priori, tau, beta, lambda, gamma = 2/3,
+                 filter.number = 5, family = 'DaubExPhase')
+identical(round(d_i$theta[,2], 10), round(d_ii$theta[,2], 10))
+
+## matriz estimada de coef de ondaleta
+delta_D <-  colMeans(d_i$theta[seq(50, 3000, 2),])  # burn-in e thining
+
+
+# Exemplo 2 ---------------------------------------------------------------
 
 # definindo parâmetros
 M <- 16                      # quantidade de pontos por função
