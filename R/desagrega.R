@@ -45,7 +45,7 @@
 #' legend('bottomright', lwd=2, bty='n', cex=0.85, col=c('black', 'blue'),
 #'        legend=c('Função Verdadeira', 'Função Recuperada'))
 
-desagrega <- function(data, y, policy='sure', filter.number=10,
+desagrega <- function(data, y, policy='sure', filter.number=5,
                       family='DaubExPhase', a,s,tau) {
   D <- apply(data, MARGIN=2, wd, filter.number, family)  # coeficientes empiricos
   if (policy %in% c('universal', 'sure', 'cv', 'fdr')) {
