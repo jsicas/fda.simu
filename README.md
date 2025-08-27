@@ -6,7 +6,9 @@ Dados Funcionais Agregados*. No geral, neste tipo de problema tem-se o
 interesse em estimar curvas componentes $`\alpha_1(t)`$, , $\alpha_L(t)$
 a partir de uma amostra agregada, isto é, cada elemento da amostra é uma
 combinação linear das $L$ funções componentes. O modelo para esse tipo
-de problema é dado por: $$
+de problema é dado por:
+
+$$
 A(t) = \sum_{l=1}^L y_l\alpha_l(t) + e(t)
 $$
 
