@@ -49,7 +49,7 @@ f_hat <- desagrega(data=sample$fun, y=sample$y)
 ```
 
 Com isso, tem-se as funções estimadas (em preto), as quais podem ser
-comparadas com as verdadeiras (em azul)
+comparadas com as verdadeiras (em azul).
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ## Referências

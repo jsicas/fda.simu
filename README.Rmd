@@ -57,7 +57,7 @@ A partir da amostra é aplicada a transformada discreta de ondaletas (DWT), esti
 f_hat <- desagrega(data=sample$fun, y=sample$y)
 ```
 
-Com isso, tem-se as funções estimadas (em preto), as quais podem ser comparadas com as verdadeiras (em azul)
+Com isso, tem-se as funções estimadas (em preto), as quais podem ser comparadas com as verdadeiras (em azul).
 ```{r, echo=F, fig.height=2.7}
 # plot
 par(mfrow=c(1,2), mar=c(3.8, 3.8, 1.75, 1), mgp=c(2.5,1,0), las=1)
