@@ -27,9 +27,9 @@ devtools::install_github("jsicas/fda.simu")
 
 ## Exemplo
 
-Considerando as funções Bumps e Doppler (funções de teste de Donoho e Johnstone), pode-se gerar uma amostra agregada tamanho `I=50` com razão sinal-ruído `snr=5` contaminada de um erro aditivo gaussiano.
+Considerando as funções Bumps e Doppler (funções de teste de Donoho e Johnstone), pode-se gerar uma amostra agregada tamanho `I=10` com razão sinal-ruído `snr=5` contaminada de um erro aditivo gaussiano.
 
-```{r, echo=F, fig.height=2.5, fig.width=9.5}
+```{r, echo=F, fig.height=2.7, fig.width=9.5}
 library(fda.simu)
 set.seed(282829)
 
