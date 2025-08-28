@@ -11,6 +11,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{css, echo=FALSE}
+p {
+  text-align: justify
+}
+```
+
 # fda.simu
 
 O pacote `fda.simu` permite a utilização de técnincas da *Análise de Dados Funcionais Agregados* a partir da expansão das observações por ondaletas (*wavelets*). No geral, neste tipo de problema, tem-se o interesse em estimar curvas componentes a partir de uma amostra agregada, isto é, cada elemento da amostra é uma combinação linear de $L$ funções componentes. Além disso, este pacote considera a utilização de erro gaussiano e positivo (Gama), usufruindo da teoria apresentada em Sousa (2024) e Sousa e Garcia (2023).
