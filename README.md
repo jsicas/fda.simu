@@ -1,5 +1,6 @@
-
 # fda.simu
+
+<div align="justify">
 
 O pacote `fda.simu` permite a utilização de técnincas da *Análise de
 Dados Funcionais Agregados* a partir da expansão das observações por
@@ -10,8 +11,7 @@ $L$ funções componentes. Além disso, este pacote considera a utilização
 de erro gaussiano e positivo (Gama), usufruindo da teoria apresentada em
 Sousa (2024) e Sousa e Garcia (2023).
 
-Também estão implementadas rotinas paralelizáveis, através do *framework* [`Futureverse`](https://www.futureverse.org/), para as funções de simulação. Para mais detalhes sobre paralelização, consulte o pacote [`future`](https://future.futureverse.org/).
-
+Também estão implementadas rotinas paralelizáveis, através do *framework* [`Futureverse`](https://www.futureverse.org/), para as funções de simulação. Mais detalhes sobre paralelização então disponíveis em [`future`](https://future.futureverse.org/).
 
 ## Instalação
 
@@ -65,3 +65,5 @@ Sousa, A. R. S. e Garcia, N. L. (2023). Wavelet shrinkage in
 nonparametric regression models with positive noise. *Journal of
 Statistical Computation and Simulation* 93.17, pp. 3011–3033. DOI:
 [10.1080/00949655.2023.2215372](https://doi.org/10.1080/00949655.2023.2215372).
+
+</div>
