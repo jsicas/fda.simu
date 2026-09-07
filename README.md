@@ -10,6 +10,15 @@ $L$ funções componentes. Além disso, este pacote considera a utilização
 de erro gaussiano e positivo (Gama), usufruindo da teoria apresentada em
 Sousa (2024) e Sousa e Garcia (2023).
 
+Vale ressaltar que esse pacote implementa rotinas paralelizáveis, através do *framework* [`Futureverse`](https://www.futureverse.org/), para as funções de simulação, a qual pode ser configurata através do comando:
+
+``` r
+plan(multicore, workers=25)     # paralelizar no Linux
+plan(multisession, workers=25)  # paralelizar no Windows
+```
+Para mais detalhes sobre paralelização, consulte o pacote [`future`](https://future.futureverse.org/).
+
+
 ## Instalação
 
 A instalação do pacote é feita através de:
